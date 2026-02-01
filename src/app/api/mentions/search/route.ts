@@ -30,52 +30,44 @@ export async function GET(request: NextRequest) {
       id: string;
       name: string;
       image?: string;
-      username?: string;
     }> = [];
 
+    // Always search both users and apps regardless of trigger type
     // Search users
-    if (type === 'all' || type === 'user') {
-      const users = await User.find({
-        $or: [
-          { name: { $regex: query, $options: 'i' } },
-          { username: { $regex: query, $options: 'i' } },
-        ],
-        isBanned: { $ne: true },
-      })
-        .select('name username image')
-        .limit(limit)
-        .lean();
+    const users = await User.find({
+      name: { $regex: query, $options: 'i' },
+      isBanned: { $ne: true },
+    })
+      .select('name image')
+      .limit(limit)
+      .lean();
 
-      results.push(
-        ...users.map((user) => ({
-          type: 'user' as const,
-          id: user._id.toString(),
-          name: user.name,
-          image: user.image,
-          username: user.username,
-        }))
-      );
-    }
+    results.push(
+      ...users.map((user) => ({
+        type: 'user' as const,
+        id: user._id.toString(),
+        name: user.name,
+        image: user.image,
+      }))
+    );
 
     // Search apps
-    if (type === 'all' || type === 'app') {
-      const apps = await App.find({
-        name: { $regex: query, $options: 'i' },
-        status: 'published',
-      })
-        .select('name icon')
-        .limit(limit)
-        .lean();
+    const apps = await App.find({
+      title: { $regex: query, $options: 'i' },
+      status: 'approved',
+    })
+      .select('title iconUrl')
+      .limit(limit)
+      .lean();
 
-      results.push(
-        ...apps.map((app) => ({
-          type: 'app' as const,
-          id: app._id.toString(),
-          name: app.name,
-          image: app.icon,
-        }))
-      );
-    }
+    results.push(
+      ...apps.map((app) => ({
+        type: 'app' as const,
+        id: app._id.toString(),
+        name: app.title,
+        image: app.iconUrl,
+      }))
+    );
 
     // Sort by relevance (exact match first, then prefix match, then contains)
     results.sort((a, b) => {

@@ -43,6 +43,7 @@ export function useMentions(
     }
 
     setIsLoading(true);
+    setIsOpen(true); // Show dropdown while loading
     try {
       const res = await fetch(
         `/api/mentions/search?q=${encodeURIComponent(q)}&type=${type}`
@@ -52,9 +53,12 @@ export function useMentions(
         setResults(data.results);
         setIsOpen(data.results.length > 0);
         setSelectedIndex(0);
+      } else {
+        setIsOpen(false);
       }
     } catch (error) {
       console.error('Mention search error:', error);
+      setIsOpen(false);
     } finally {
       setIsLoading(false);
     }

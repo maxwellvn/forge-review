@@ -187,41 +187,41 @@
 }
 
 .mention-user {
-  background: oklch(0.7 0.15 250 / 15%);
-  color: oklch(0.5 0.2 250);
+  background: oklch(0.7 0.15 230 / 15%);
+  color: oklch(0.5 0.2 230);
 }
 
 .mention-user:hover {
-  background: oklch(0.7 0.15 250 / 25%);
-  color: oklch(0.4 0.25 250);
+  background: oklch(0.7 0.15 230 / 25%);
+  color: oklch(0.4 0.25 230);
 }
 
 .mention-app {
-  background: oklch(0.7 0.15 150 / 15%);
-  color: oklch(0.45 0.2 150);
+  background: oklch(0.7 0.15 230 / 15%);
+  color: oklch(0.5 0.2 230);
 }
 
 .mention-app:hover {
-  background: oklch(0.7 0.15 150 / 25%);
-  color: oklch(0.35 0.25 150);
+  background: oklch(0.7 0.15 230 / 25%);
+  color: oklch(0.4 0.25 230);
 }
 
 .dark .mention-user {
-  background: oklch(0.6 0.2 250 / 20%);
-  color: oklch(0.75 0.15 250);
+  background: oklch(0.6 0.2 230 / 20%);
+  color: oklch(0.75 0.15 230);
 }
 
 .dark .mention-user:hover {
-  background: oklch(0.6 0.2 250 / 30%);
-  color: oklch(0.85 0.12 250);
+  background: oklch(0.6 0.2 230 / 30%);
+  color: oklch(0.85 0.12 230);
 }
 
 .dark .mention-app {
-  background: oklch(0.6 0.2 150 / 20%);
-  color: oklch(0.75 0.15 150);
+  background: oklch(0.6 0.2 230 / 20%);
+  color: oklch(0.75 0.15 230);
 }
 
 .dark .mention-app:hover {
-  background: oklch(0.6 0.2 150 / 30%);
-  color: oklch(0.85 0.12 150);
+  background: oklch(0.6 0.2 230 / 30%);
+  color: oklch(0.85 0.12 230);
 }

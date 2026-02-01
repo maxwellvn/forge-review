@@ -95,30 +95,71 @@ export default async function DiscussionPage({ params }: PageProps) {
     );
   }
 
-  const commentsWithVotes = comments.map((comment) => ({
-    ...comment,
-    _id: comment._id.toString(),
-    discussionId: comment.discussionId.toString(),
-    parentId: comment.parentId?.toString() || null,
-    authorId: {
-      ...comment.authorId,
-      _id: (comment.authorId as { _id: { toString(): string } })._id.toString(),
-    },
-    userVote: commentVotes[comment._id.toString()] || null,
-    createdAt: (comment.createdAt as Date).toISOString(),
-    updatedAt: (comment.updatedAt as Date)?.toISOString?.() || null,
-    isDeleted: comment.isDeleted || false,
-    isEdited: comment.isEdited || false,
-  }));
+  const commentsWithVotes = comments.map((comment) => {
+    const author = comment.authorId as { _id: { toString(): string }; name: string; image?: string; username?: string; role?: string };
+    return {
+      _id: comment._id.toString(),
+      discussionId: comment.discussionId.toString(),
+      parentId: comment.parentId?.toString() || null,
+      authorId: {
+        _id: author._id.toString(),
+        name: author.name,
+        image: author.image,
+        username: author.username,
+        role: author.role,
+      },
+      content: comment.content,
+      contentHtml: comment.contentHtml,
+      mentions: ((comment.mentions || []) as Array<{ type: string; refId: { toString(): string }; displayName: string; startIndex: number; endIndex: number }>).map((mention) => ({
+        type: mention.type,
+        refId: String(mention.refId),
+        displayName: mention.displayName,
+        startIndex: mention.startIndex,
+        endIndex: mention.endIndex,
+      })),
+      depth: comment.depth,
+      path: comment.path,
+      upvotes: comment.upvotes,
+      downvotes: comment.downvotes,
+      score: comment.score,
+      userVote: commentVotes[comment._id.toString()] || null,
+      createdAt: (comment.createdAt as Date).toISOString(),
+      updatedAt: (comment.updatedAt as Date)?.toISOString?.() || null,
+      isDeleted: comment.isDeleted || false,
+      isEdited: comment.isEdited || false,
+    };
+  });
 
   // Serialize discussion for client
+  const author = discussion.authorId as { _id: { toString(): string }; name: string; image?: string; username?: string; role?: string };
   const serializedDiscussion = {
-    ...discussion,
     _id: discussion._id.toString(),
+    title: discussion.title,
+    content: discussion.content,
+    contentHtml: discussion.contentHtml,
+    category: discussion.category,
     authorId: {
-      ...discussion.authorId,
-      _id: (discussion.authorId as { _id: { toString(): string } })._id.toString(),
+      _id: author._id.toString(),
+      name: author.name,
+      image: author.image,
+      username: author.username,
+      role: author.role,
     },
+    mentions: (discussion.mentions || []).map((mention: { type: string; refId: { toString(): string }; displayName: string; startIndex: number; endIndex: number }) => ({
+      type: mention.type,
+      refId: String(mention.refId),
+      displayName: mention.displayName,
+      startIndex: mention.startIndex,
+      endIndex: mention.endIndex,
+    })),
+    upvotes: discussion.upvotes,
+    downvotes: discussion.downvotes,
+    score: discussion.score,
+    commentCount: discussion.commentCount,
+    viewCount: discussion.viewCount,
+    isPinned: discussion.isPinned,
+    isLocked: discussion.isLocked,
+    isHidden: discussion.isHidden,
     createdAt: discussion.createdAt.toISOString(),
     lastActivityAt: discussion.lastActivityAt.toISOString(),
   };

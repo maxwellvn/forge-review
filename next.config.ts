@@ -24,6 +24,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'cdn1.kingschat.online',
       },
+      {
+        protocol: 'https',
+        hostname: 'rhapsodycrusades.org',
+      },
     ],
   },
 };
