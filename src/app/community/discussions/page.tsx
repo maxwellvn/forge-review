@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function DiscussionsPage() {
   return (
-    <div className="container max-w-4xl py-8">
+    <div className="container max-w-4xl py-4 px-3 sm:py-8 sm:px-4">
       <Breadcrumb
         items={[
           { label: 'Community', href: '/community' },
@@ -18,9 +18,9 @@ export default function DiscussionsPage() {
         ]}
       />
 
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">Discussions</h1>
-        <p className="text-muted-foreground mt-1">
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold">Discussions</h1>
+        <p className="text-sm sm:text-base text-muted-foreground mt-1">
           Share ideas, ask questions, and connect with the community
         </p>
       </div>

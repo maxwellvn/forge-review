@@ -41,16 +41,16 @@ export function DiscussionList({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
       {(showFilters || showCreateButton) && (
-        <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
-          {showFilters && <DiscussionFilters />}
+        <div className="flex flex-col gap-3 sm:gap-4">
           {showCreateButton && (
-            <Link href="/community/discussions/new">
-              <Button>New Discussion</Button>
+            <Link href="/community/discussions/new" className="sm:self-end sm:order-2">
+              <Button className="w-full sm:w-auto">New Discussion</Button>
             </Link>
           )}
+          {showFilters && <DiscussionFilters />}
         </div>
       )}
 
@@ -88,11 +88,13 @@ export function DiscussionList({
 
       {/* Pagination */}
       {pagination && pagination.totalPages > 1 && (
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center items-center gap-1 sm:gap-2">
           <Button
             variant="outline"
+            size="sm"
             disabled={page <= 1}
             asChild
+            className="text-xs sm:text-sm px-2 sm:px-4"
           >
             <Link
               href={`?${new URLSearchParams({
@@ -100,18 +102,20 @@ export function DiscussionList({
                 page: String(page - 1),
               })}`}
             >
-              Previous
+              Prev
             </Link>
           </Button>
 
-          <span className="flex items-center px-4 text-sm text-muted-foreground">
-            Page {page} of {pagination.totalPages}
+          <span className="flex items-center px-2 sm:px-4 text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
+            {page} / {pagination.totalPages}
           </span>
 
           <Button
             variant="outline"
+            size="sm"
             disabled={page >= pagination.totalPages}
             asChild
+            className="text-xs sm:text-sm px-2 sm:px-4"
           >
             <Link
               href={`?${new URLSearchParams({

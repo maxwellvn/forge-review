@@ -75,34 +75,36 @@ export function DiscussionCard({ discussion, userVote }: DiscussionCardProps) {
   return (
     <div
       className={cn(
-        'flex gap-3 p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors',
+        'flex gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors',
         isPinned && 'border-orange-500/50 bg-orange-500/5'
       )}
     >
-      {/* Vote buttons */}
-      <VoteButtons
-        targetType="discussion"
-        targetId={_id}
-        initialUpvotes={upvotes}
-        initialDownvotes={downvotes}
-        initialUserVote={userVote || null}
-        size="sm"
-        orientation="vertical"
-      />
+      {/* Vote buttons - hidden on mobile, shown inline in footer instead */}
+      <div className="hidden sm:block flex-shrink-0">
+        <VoteButtons
+          targetType="discussion"
+          targetId={_id}
+          initialUpvotes={upvotes}
+          initialDownvotes={downvotes}
+          initialUserVote={userVote || null}
+          size="sm"
+          orientation="vertical"
+        />
+      </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
         {/* Header */}
         <div className="flex items-center gap-2 flex-wrap mb-1">
           {isPinned && (
-            <Pin size={14} className="text-orange-500 flex-shrink-0" />
+            <Pin size={12} className="text-orange-500 flex-shrink-0 sm:w-3.5 sm:h-3.5" />
           )}
           {isLocked && (
-            <Lock size={14} className="text-muted-foreground flex-shrink-0" />
+            <Lock size={12} className="text-muted-foreground flex-shrink-0 sm:w-3.5 sm:h-3.5" />
           )}
           <Badge
             variant="secondary"
-            className={cn('text-xs', categoryColors[category])}
+            className={cn('text-[10px] sm:text-xs px-1.5 py-0 sm:px-2 sm:py-0.5', categoryColors[category])}
           >
             {categoryLabels[category]}
           </Badge>
@@ -113,51 +115,64 @@ export function DiscussionCard({ discussion, userVote }: DiscussionCardProps) {
           href={`/community/discussions/${_id}`}
           className="block group"
         >
-          <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+          <h3 className="text-sm sm:text-base font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
             {title}
           </h3>
         </Link>
 
-        {/* Preview */}
-        <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+        {/* Preview - hidden on small mobile */}
+        <p className="hidden xs:block text-xs sm:text-sm text-muted-foreground mt-1 line-clamp-2">
           {contentPreview}
         </p>
 
         {/* Footer */}
-        <div className="flex items-center gap-3 mt-3 text-xs text-muted-foreground flex-wrap">
+        <div className="flex items-center gap-2 sm:gap-3 mt-2 sm:mt-3 text-[10px] sm:text-xs text-muted-foreground flex-wrap">
+          {/* Mobile vote buttons */}
+          <div className="sm:hidden flex-shrink-0">
+            <VoteButtons
+              targetType="discussion"
+              targetId={_id}
+              initialUpvotes={upvotes}
+              initialDownvotes={downvotes}
+              initialUserVote={userVote || null}
+              size="sm"
+              orientation="horizontal"
+            />
+          </div>
+
           {/* Author */}
           <Link
             href={`/profile/${authorId._id}`}
-            className="flex items-center gap-1.5 hover:text-foreground transition-colors min-w-0 max-w-[150px]"
+            className="flex items-center gap-1 sm:gap-1.5 hover:text-foreground transition-colors min-w-0 max-w-[100px] sm:max-w-[150px]"
           >
             {authorId.image ? (
               <Image
                 src={authorId.image}
                 alt={authorId.name}
-                width={18}
-                height={18}
-                className="rounded-full flex-shrink-0"
+                width={16}
+                height={16}
+                className="rounded-full flex-shrink-0 sm:w-[18px] sm:h-[18px]"
               />
             ) : (
-              <div className="w-[18px] h-[18px] rounded-full bg-muted flex-shrink-0" />
+              <div className="w-4 h-4 sm:w-[18px] sm:h-[18px] rounded-full bg-muted flex-shrink-0" />
             )}
             <span className="truncate">{authorId.username || authorId.name}</span>
           </Link>
 
           {/* Time */}
-          <span className="whitespace-nowrap">
+          <span className="whitespace-nowrap hidden xs:inline">
             {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
           </span>
 
           {/* Comments */}
-          <div className="flex items-center gap-1 whitespace-nowrap">
-            <MessageSquare size={14} className="flex-shrink-0" />
+          <div className="flex items-center gap-0.5 sm:gap-1 whitespace-nowrap">
+            <MessageSquare size={12} className="flex-shrink-0 sm:w-3.5 sm:h-3.5" />
             <span>{commentCount}</span>
           </div>
 
-          {/* Views */}
-          <div className="flex items-center gap-1 whitespace-nowrap">
-            <Eye size={14} className="flex-shrink-0" />
+          {/* Views - hidden on small mobile */}
+          <div className="hidden xs:flex items-center gap-0.5 sm:gap-1 whitespace-nowrap">
+            <Eye size={12} className="flex-shrink-0 sm:w-3.5 sm:h-3.5" />
             <span>{viewCount}</span>
           </div>
         </div>

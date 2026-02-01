@@ -67,16 +67,16 @@ export function DiscussionFilters({
   };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-      {/* Sort buttons */}
-      <div className="flex items-center gap-1 p-1 bg-muted rounded-lg">
+    <div className="flex flex-col gap-3 w-full">
+      {/* Sort buttons - scrollable on mobile */}
+      <div className="flex items-center gap-1 p-1 bg-muted rounded-lg overflow-x-auto">
         {sortOptions.map(({ value, label, icon: Icon }) => (
           <Button
             key={value}
             variant="ghost"
             size="sm"
             className={cn(
-              'h-8 gap-1.5',
+              'h-8 gap-1.5 flex-shrink-0 px-2 sm:px-3',
               currentSort === value
                 ? 'bg-background shadow-sm'
                 : 'hover:bg-background/50'
@@ -84,14 +84,14 @@ export function DiscussionFilters({
             onClick={() => handleSortChange(value)}
           >
             <Icon size={14} />
-            <span className="hidden sm:inline">{label}</span>
+            <span className="text-xs sm:text-sm">{label}</span>
           </Button>
         ))}
       </div>
 
       {/* Category filter */}
       <Select value={currentCategory} onValueChange={handleCategoryChange}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-full sm:w-[180px]">
           <SelectValue placeholder="All Categories" />
         </SelectTrigger>
         <SelectContent>

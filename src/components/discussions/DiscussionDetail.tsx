@@ -124,24 +124,58 @@ export function DiscussionDetail({ discussion, userVote }: DiscussionDetailProps
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex gap-4">
-        {/* Vote buttons */}
-        <div className="flex-shrink-0">
-          <VoteButtons
-            targetType="discussion"
-            targetId={discussion._id}
-            initialUpvotes={discussion.upvotes}
-            initialDownvotes={discussion.downvotes}
-            initialUserVote={userVote}
-            orientation="vertical"
-          />
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+        {/* Vote buttons - horizontal on mobile, vertical on desktop */}
+        <div className="flex sm:flex-col items-center gap-2 sm:flex-shrink-0">
+          <div className="sm:hidden">
+            <VoteButtons
+              targetType="discussion"
+              targetId={discussion._id}
+              initialUpvotes={discussion.upvotes}
+              initialDownvotes={discussion.downvotes}
+              initialUserVote={userVote}
+              orientation="horizontal"
+              size="sm"
+            />
+          </div>
+          <div className="hidden sm:block">
+            <VoteButtons
+              targetType="discussion"
+              targetId={discussion._id}
+              initialUpvotes={discussion.upvotes}
+              initialDownvotes={discussion.downvotes}
+              initialUserVote={userVote}
+              orientation="vertical"
+            />
+          </div>
+          {/* Mobile header badges inline with votes */}
+          <div className="flex items-center gap-2 flex-wrap sm:hidden">
+            {discussion.isPinned && (
+              <Badge variant="secondary" className="bg-orange-500/10 text-orange-500 text-[10px] px-1.5 py-0">
+                <Pin size={10} className="mr-0.5" />
+                Pinned
+              </Badge>
+            )}
+            {discussion.isLocked && (
+              <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                <Lock size={10} className="mr-0.5" />
+                Locked
+              </Badge>
+            )}
+            <Badge
+              variant="secondary"
+              className={cn('text-[10px] px-1.5 py-0', categoryColors[discussion.category])}
+            >
+              {categoryLabels[discussion.category]}
+            </Badge>
+          </div>
         </div>
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          {/* Header badges */}
-          <div className="flex items-center gap-2 flex-wrap mb-2">
+          {/* Header badges - desktop only */}
+          <div className="hidden sm:flex items-center gap-2 flex-wrap mb-2">
             {discussion.isPinned && (
               <Badge variant="secondary" className="bg-orange-500/10 text-orange-500">
                 <Pin size={12} className="mr-1" />
@@ -163,32 +197,32 @@ export function DiscussionDetail({ discussion, userVote }: DiscussionDetailProps
           </div>
 
           {/* Title */}
-          <h1 className="text-2xl font-bold mb-4 break-words">{discussion.title}</h1>
+          <h1 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 break-words">{discussion.title}</h1>
 
           {/* Content */}
           <div
-            className="prose prose-sm dark:prose-invert max-w-none break-words overflow-hidden"
+            className="prose prose-sm dark:prose-invert max-w-none break-words overflow-hidden text-sm sm:text-base"
             dangerouslySetInnerHTML={{ __html: discussion.contentHtml }}
           />
 
           {/* Footer */}
-          <div className="flex items-center justify-between gap-4 mt-6 pt-4 border-t flex-wrap">
-            <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap min-w-0">
+          <div className="flex items-center justify-between gap-3 sm:gap-4 mt-4 sm:mt-6 pt-3 sm:pt-4 border-t flex-wrap">
+            <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap min-w-0">
               {/* Author */}
               <Link
                 href={`/profile/${discussion.authorId._id}`}
-                className="flex items-center gap-2 hover:text-foreground transition-colors min-w-0 max-w-[200px]"
+                className="flex items-center gap-1.5 sm:gap-2 hover:text-foreground transition-colors min-w-0 max-w-[140px] sm:max-w-[200px]"
               >
                 {discussion.authorId.image ? (
                   <Image
                     src={discussion.authorId.image}
                     alt={discussion.authorId.name}
-                    width={24}
-                    height={24}
-                    className="rounded-full flex-shrink-0"
+                    width={20}
+                    height={20}
+                    className="rounded-full flex-shrink-0 sm:w-6 sm:h-6"
                   />
                 ) : (
-                  <div className="w-6 h-6 rounded-full bg-muted flex-shrink-0" />
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-muted flex-shrink-0" />
                 )}
                 <span className="font-medium truncate">
                   {discussion.authorId.username || discussion.authorId.name}
@@ -204,11 +238,11 @@ export function DiscussionDetail({ discussion, userVote }: DiscussionDetailProps
 
               {/* Stats */}
               <div className="flex items-center gap-1 whitespace-nowrap">
-                <MessageSquare size={14} className="flex-shrink-0" />
+                <MessageSquare size={12} className="flex-shrink-0 sm:w-3.5 sm:h-3.5" />
                 <span>{discussion.commentCount}</span>
               </div>
-              <div className="flex items-center gap-1 whitespace-nowrap">
-                <Eye size={14} className="flex-shrink-0" />
+              <div className="hidden xs:flex items-center gap-1 whitespace-nowrap">
+                <Eye size={12} className="flex-shrink-0 sm:w-3.5 sm:h-3.5" />
                 <span>{discussion.viewCount}</span>
               </div>
             </div>
@@ -217,7 +251,7 @@ export function DiscussionDetail({ discussion, userVote }: DiscussionDetailProps
             {(canEdit || canDelete || canModerate) && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-10 sm:w-10">
                     <MoreVertical size={16} />
                   </Button>
                 </DropdownMenuTrigger>

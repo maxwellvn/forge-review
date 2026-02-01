@@ -165,7 +165,7 @@ export default async function DiscussionPage({ params }: PageProps) {
   };
 
   return (
-    <div className="container max-w-4xl py-8">
+    <div className="container max-w-4xl py-4 px-3 sm:py-8 sm:px-4">
       <Breadcrumb
         items={[
           { label: 'Community', href: '/community' },
@@ -179,7 +179,7 @@ export default async function DiscussionPage({ params }: PageProps) {
         userVote={userVote}
       />
 
-      <div className="mt-8">
+      <div className="mt-6 sm:mt-8">
         <CommentSection
           discussionId={id}
           initialComments={commentsWithVotes}
