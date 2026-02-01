@@ -124,11 +124,7 @@ export function useMentions(
     (mention: MentionResult): string => {
       const prefix = mention.type === 'user' ? '@' : '#';
       const displayName = mention.name;
-      // Use brackets for names with spaces to properly parse them
-      const hasSpace = displayName.includes(' ');
-      const mentionText = hasSpace
-        ? `${prefix}[${displayName}]`
-        : `${prefix}${displayName}`;
+      const mentionText = `${prefix}${displayName}`;
 
       setIsOpen(false);
       setResults([]);
