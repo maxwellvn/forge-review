@@ -30,7 +30,7 @@ export function MentionAutocomplete({
   }
 
   return (
-    <div className="absolute z-50 w-64 bg-popover border rounded-lg shadow-lg overflow-hidden">
+    <div className="w-72 bg-popover border rounded-lg shadow-lg overflow-hidden">
       {isLoading ? (
         <div className="p-2 text-sm text-muted-foreground">Searching...</div>
       ) : (

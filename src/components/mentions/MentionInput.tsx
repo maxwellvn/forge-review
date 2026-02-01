@@ -117,7 +117,7 @@ export function MentionInput({
         disabled={disabled}
       />
       {isOpen && (
-        <div className="absolute bottom-full left-0 mb-1">
+        <div className="absolute top-full left-0 mt-1 z-50">
           <MentionAutocomplete
             results={results}
             selectedIndex={selectedIndex}
