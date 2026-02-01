@@ -1,7 +1,7 @@
 import { IMention } from '@/models/Discussion';
 
-// Match @username, @"User Name", #AppName, #"App Name"
-const MENTION_REGEX = /(@|#)(?:"([^"]+)"|(\w+))/g;
+// Match @username, @[User Name], @"User Name", #AppName, #[App Name], #"App Name"
+const MENTION_REGEX = /(@|#)(?:\[([^\]]+)\]|"([^"]+)"|(\w+))/g;
 
 export interface ParsedMention {
   type: 'user' | 'app';
@@ -20,9 +20,10 @@ export function parseMentions(content: string): ParsedMention[] {
 
   while ((match = MENTION_REGEX.exec(content)) !== null) {
     const prefix = match[1];
-    const quotedName = match[2];
-    const unquotedName = match[3];
-    const displayName = quotedName || unquotedName;
+    const bracketName = match[2];  // [Name With Spaces]
+    const quotedName = match[3];   // "Name With Spaces"
+    const unquotedName = match[4]; // SingleWord
+    const displayName = bracketName || quotedName || unquotedName;
 
     mentions.push({
       type: prefix === '@' ? 'user' : 'app',
@@ -97,12 +98,16 @@ export function extractMentionTrigger(
   // Look backwards from cursor for @ or #
   const textBeforeCursor = text.slice(0, cursorPosition);
 
-  // Match @ or # followed by optional quote and characters, at word boundary
-  const match = textBeforeCursor.match(/(?:^|[\s])(@|#)"?(\w*)$/);
+  // Match @ or # followed by optional bracket/quote and characters, at word boundary
+  // Supports: @word, @[words, @"words
+  const match = textBeforeCursor.match(/(?:^|[\s])(@|#)(?:\[([^\]]*)|"([^"]*)|(\w*))$/);
 
   if (match) {
     const prefix = match[1];
-    const query = match[2];
+    const bracketQuery = match[2];  // Inside brackets (incomplete)
+    const quotedQuery = match[3];   // Inside quotes (incomplete)
+    const wordQuery = match[4];     // Plain word
+    const query = bracketQuery ?? quotedQuery ?? wordQuery ?? '';
 
     // Only trigger autocomplete after 2+ characters
     if (query.length >= 2) {

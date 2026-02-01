@@ -126,14 +126,13 @@ export async function POST(request: NextRequest) {
 
         if (mention.type === 'user') {
           const mentionedUser = await User.findOne({
-            $or: [
-              { username: mention.displayName },
-              { name: mention.displayName },
-            ],
+            name: { $regex: `^${mention.displayName}$`, $options: 'i' },
           });
           refId = mentionedUser?._id || null;
         } else {
-          const mentionedApp = await App.findOne({ name: mention.displayName });
+          const mentionedApp = await App.findOne({ 
+            title: { $regex: `^${mention.displayName}$`, $options: 'i' },
+          });
           refId = mentionedApp?._id || null;
         }
 

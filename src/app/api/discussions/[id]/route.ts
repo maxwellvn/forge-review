@@ -138,15 +138,12 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
             if (mention.type === 'user') {
               const mentionedUser = await User.findOne({
-                $or: [
-                  { username: mention.displayName },
-                  { name: mention.displayName },
-                ],
+                name: { $regex: `^${mention.displayName}$`, $options: 'i' },
               });
               refId = mentionedUser?._id || null;
             } else {
               const mentionedApp = await App.findOne({
-                name: mention.displayName,
+                title: { $regex: `^${mention.displayName}$`, $options: 'i' },
               });
               refId = mentionedApp?._id || null;
             }

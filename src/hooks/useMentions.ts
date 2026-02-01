@@ -123,10 +123,11 @@ export function useMentions(
   const selectMention = useCallback(
     (mention: MentionResult): string => {
       const prefix = mention.type === 'user' ? '@' : '#';
-      const displayName = mention.username || mention.name;
+      const displayName = mention.name;
+      // Use brackets for names with spaces to properly parse them
       const hasSpace = displayName.includes(' ');
       const mentionText = hasSpace
-        ? `${prefix}"${displayName}"`
+        ? `${prefix}[${displayName}]`
         : `${prefix}${displayName}`;
 
       setIsOpen(false);

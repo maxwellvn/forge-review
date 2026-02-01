@@ -55,9 +55,9 @@ export function MentionInput({
       const textarea = textareaRef.current;
       if (!textarea) return;
 
-      // Find the start of the mention trigger
+      // Find the start of the mention trigger (supports @word, @[partial, @"partial)
       const textBeforeCursor = value.slice(0, cursorPosition);
-      const match = textBeforeCursor.match(/(@|#)"?\w*$/);
+      const match = textBeforeCursor.match(/(@|#)(?:\[[^\]]*|"[^"]*|\w*)$/);
 
       if (match) {
         const triggerStart = cursorPosition - match[0].length;
