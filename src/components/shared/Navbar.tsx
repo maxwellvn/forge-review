@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Upload, User, LogOut, Shield, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -116,46 +115,46 @@ export function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="sticky top-0 z-50 w-full border-b border-border bg-background overflow-hidden"
+      className="sticky top-0 z-50 w-full border-b border-border bg-background"
     >
-      <div className="container relative flex h-14 md:h-16 items-center justify-between gap-2">
-        {/* Logo - left section */}
-        <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+      <div className="container flex h-14 md:h-16 items-center justify-between gap-4">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 shrink-0">
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-1.5 sm:gap-2"
+            className="flex items-center gap-2"
           >
             <Image
               src="/logo.webp"
               alt="APP Review Logo"
               width={32}
               height={32}
-              className="h-7 w-7 sm:h-8 sm:w-8 object-contain"
+              className="h-8 w-8 object-contain"
             />
-            <h1 className="text-lg md:text-xl font-bold tracking-tight">App Review</h1>
+            <h1 className="text-xl font-bold tracking-tight">App Review</h1>
           </motion.div>
         </Link>
 
-        {/* Desktop Navigation Links - absolutely centered */}
-        <nav className="desktop-nav hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2 pointer-events-none">
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground pointer-events-auto"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        {/* Right side actions */}
-        <div className="flex items-center gap-2 relative z-10">
+        {/* Right side */}
+        <div className="flex items-center gap-3">
           {/* Desktop Search */}
-          <div ref={searchRef} className="hidden md:block relative">
+          <div ref={searchRef} className="relative hidden md:block">
             <form onSubmit={handleSearchSubmit}>
-              <div className="flex items-center h-9 w-[200px] lg:w-[280px] rounded-md border border-input bg-background px-3 gap-2">
+              <div className="flex items-center h-9 w-[240px] rounded-md border border-input bg-background px-3 gap-2">
                 <Search className="h-4 w-4 text-muted-foreground shrink-0" />
                 <input
                   type="text"
@@ -168,7 +167,7 @@ export function Navbar() {
               </div>
             </form>
 
-            {/* Desktop Search Results Dropdown */}
+            {/* Search Results Dropdown */}
             <AnimatePresence>
               {searchOpen && (searchResults.length > 0 || isSearching) && (
                 <motion.div
@@ -190,7 +189,7 @@ export function Navbar() {
                           role="button"
                           tabIndex={0}
                           onKeyDown={(e) => e.key === 'Enter' && handleResultClick(app._id)}
-                          className="w-full flex items-center gap-3 p-3 hover:bg-muted transition-colors text-left cursor-pointer"
+                          className="flex items-center gap-3 p-3 hover:bg-muted transition-colors cursor-pointer"
                         >
                           <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden">
                             {app.iconUrl ? (
@@ -217,7 +216,7 @@ export function Navbar() {
                         }}
                         role="button"
                         tabIndex={0}
-                        className="block p-3 text-center text-sm text-primary hover:bg-muted transition-colors border-t cursor-pointer"
+                        className="p-3 text-center text-sm text-primary hover:bg-muted transition-colors border-t cursor-pointer"
                       >
                         View all results →
                       </div>
@@ -240,7 +239,7 @@ export function Navbar() {
 
           {session ? (
             <>
-              {/* Submit App - hidden on mobile */}
+              {/* Submit App Button */}
               <Link href="/apps/upload" className="hidden sm:block">
                 <Button variant="outline" size="sm" className="h-9 gap-2">
                   <Upload className="h-4 w-4" />
@@ -316,17 +315,15 @@ export function Navbar() {
             </Link>
           )}
 
-          {/* Mobile Menu Button - only visible below md breakpoint */}
-          <div className="mobile-menu-button flex md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
-          </div>
+          {/* Mobile Menu Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9 md:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
         </div>
       </div>
 
@@ -337,17 +334,18 @@ export function Navbar() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="md:hidden bg-muted/50 overflow-hidden"
+            className="md:hidden border-t border-border bg-muted/50 overflow-hidden"
           >
-            <form onSubmit={handleSearchSubmit} className="px-4 py-3">
+            <form onSubmit={handleSearchSubmit} className="p-4">
               <div className="flex items-center gap-3">
                 <div className="flex items-center flex-1 h-10 bg-background rounded-xl shadow-sm px-4 gap-3">
                   <Search className="h-4 w-4 text-muted-foreground shrink-0" />
-                  <Input
+                  <input
+                    type="text"
                     placeholder="Search apps..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 h-full border-0 bg-transparent p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                    className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                     autoFocus
                   />
                 </div>
@@ -355,7 +353,6 @@ export function Navbar() {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="text-muted-foreground hover:text-foreground shrink-0"
                   onClick={() => {
                     setSearchOpen(false);
                     setSearchQuery("");
