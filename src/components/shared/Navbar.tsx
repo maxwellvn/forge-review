@@ -155,16 +155,21 @@ export function Navbar() {
           {/* Search */}
           <div ref={searchRef} className="relative">
             {/* Desktop Search */}
-            <div className="hidden md:block">
-              <form onSubmit={handleSearchSubmit} className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search apps..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setSearchOpen(true)}
-                  className="w-[200px] lg:w-[280px] pl-9 h-9"
-                />
+            <div className="hidden md:flex">
+              <form onSubmit={handleSearchSubmit} className="flex items-center gap-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                  <Input
+                    placeholder="Search apps..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={() => setSearchOpen(true)}
+                    className="w-[180px] lg:w-[240px] pl-9 h-9"
+                  />
+                </div>
+                <Button type="submit" size="sm" variant="ghost" className="h-9 w-9 p-0">
+                  <Search className="h-4 w-4" />
+                </Button>
               </form>
             </div>
 
