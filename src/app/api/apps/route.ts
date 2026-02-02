@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       const trendingAppIds = await getTrendingApps(limit);
       if (trendingAppIds.length > 0) {
         const apps = await App.find({ _id: { $in: trendingAppIds }, status: 'approved' })
-          .populate('uploader', 'name image')
+          .populate('uploader', '_id name image')
           .lean();
         return NextResponse.json({ apps }, {
           headers: {
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     const apps = await App.find(query)
-      .populate('uploader', 'name image')
+      .populate('uploader', '_id name image')
       .sort({ pulseScore: -1, createdAt: -1 })
       .skip(skip)
       .limit(limit)
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
       status: 'pending',
     });
 
-    await newApp.populate('uploader', 'name image');
+    await newApp.populate('uploader', '_id name image');
 
     return NextResponse.json(
       { app: newApp, message: 'App submitted successfully' },

@@ -187,7 +187,7 @@ export function Navbar() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-full right-0 md:left-0 mt-2 w-[calc(100vw-2rem)] md:w-[320px] bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50"
+                  className="absolute top-full right-0 md:left-0 mt-2 w-[280px] sm:w-[320px] md:w-[320px] bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50"
                 >
                   {isSearching ? (
                     <div className="p-4 text-center text-sm text-muted-foreground">
@@ -196,37 +196,43 @@ export function Navbar() {
                   ) : (
                     <div className="max-h-[300px] overflow-y-auto">
                       {searchResults.map((app) => (
-                        <button
+                        <div
                           key={app._id}
                           onClick={() => handleResultClick(app._id)}
-                          className="w-full flex items-center gap-3 p-3 hover:bg-muted transition-colors text-left"
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => e.key === 'Enter' && handleResultClick(app._id)}
+                          className="w-full flex items-start sm:items-center gap-2 sm:gap-3 p-2.5 sm:p-3 hover:bg-muted transition-colors text-left cursor-pointer"
                         >
-                          <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden">
+                          <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden">
                             {app.iconUrl ? (
                               <img src={app.iconUrl} alt="" className="h-full w-full object-cover" />
                             ) : (
-                              <span className="text-sm font-bold">{app.title[0]}</span>
+                              <span className="text-xs sm:text-sm font-bold">{app.title[0]}</span>
                             )}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="font-medium text-sm truncate">{app.title}</p>
-                            <p className="text-xs text-muted-foreground truncate">{app.shortDescription}</p>
+                            <p className="font-medium text-xs sm:text-sm truncate">{app.title}</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{app.shortDescription}</p>
                           </div>
-                          <Badge variant="outline" className="text-xs shrink-0">
+                          <Badge variant="outline" className="text-[10px] sm:text-xs shrink-0 hidden xs:flex">
                             {app.category}
                           </Badge>
-                        </button>
+                        </div>
                       ))}
-                      <Link
-                        href={`/search?q=${encodeURIComponent(searchQuery)}`}
+                      <div
                         onClick={() => {
+                          router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
                           setSearchOpen(false);
                           setSearchQuery("");
+                          setSearchResults([]);
                         }}
-                        className="block p-3 text-center text-sm text-primary hover:bg-muted transition-colors border-t"
+                        role="button"
+                        tabIndex={0}
+                        className="block p-2.5 sm:p-3 text-center text-xs sm:text-sm text-primary hover:bg-muted transition-colors border-t cursor-pointer"
                       >
                         View all results →
-                      </Link>
+                      </div>
                     </div>
                   )}
                 </motion.div>

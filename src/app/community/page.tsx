@@ -22,6 +22,7 @@ interface TopReviewer {
 interface Activity {
   _id: string;
   user: string;
+  userId?: string;
   userImage?: string;
   action: string;
   target: string;
@@ -186,13 +187,11 @@ export default function CommunityPage() {
           <TabsList className="grid w-full sm:w-auto sm:min-w-[420px] sm:mx-auto grid-cols-3">
             <TabsTrigger value="leaderboard">
               <Trophy className="hidden sm:block" />
-              <span className="hidden sm:inline">Leaderboard</span>
-              <span className="sm:hidden">Leaders</span>
+              Leaderboard
             </TabsTrigger>
             <TabsTrigger value="discussions">
               <MessageSquare className="hidden sm:block" />
-              <span className="hidden sm:inline">Discussions</span>
-              <span className="sm:hidden">Discuss</span>
+              Discussions
             </TabsTrigger>
             <TabsTrigger value="activity">
               <Users className="hidden sm:block" />
@@ -227,8 +226,11 @@ export default function CommunityPage() {
                       data.topReviewers.map((reviewer, index) => {
                         const role = roleConfig[reviewer.role] || roleConfig.user;
                         return (
-                          <motion.div
+                          <Link
                             key={reviewer._id}
+                            href={`/profile/${reviewer._id}`}
+                          >
+                          <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.1 }}
@@ -248,7 +250,7 @@ export default function CommunityPage() {
                             </Avatar>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <span className="font-medium text-sm sm:text-base truncate">{reviewer.name}</span>
+                                <span className="font-medium text-sm sm:text-base truncate hover:text-primary transition-colors">{reviewer.name}</span>
                                 <Badge variant="secondary" className={`${role.bgColor} ${role.color} border-0 text-[10px] sm:text-xs`}>
                                   <role.icon className="h-3 w-3 mr-1" />
                                   <span className="hidden sm:inline">{role.label}</span>
@@ -260,6 +262,7 @@ export default function CommunityPage() {
                               </p>
                             </div>
                           </motion.div>
+                          </Link>
                         );
                       })
                     ) : (
@@ -435,13 +438,28 @@ export default function CommunityPage() {
                       className="flex items-start sm:items-center justify-between gap-2 p-3 sm:p-4 rounded-lg border border-border"
                     >
                       <div className="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0">
-                        <Avatar className="h-7 w-7 sm:h-8 sm:w-8 flex-shrink-0">
-                          <AvatarImage src={activity.userImage} />
-                          <AvatarFallback>{activity.user?.[0] || "U"}</AvatarFallback>
-                        </Avatar>
+                        {activity.userId ? (
+                          <Link href={`/profile/${activity.userId}`}>
+                            <Avatar className="h-7 w-7 sm:h-8 sm:w-8 flex-shrink-0 hover:ring-2 hover:ring-primary transition-all">
+                              <AvatarImage src={activity.userImage} />
+                              <AvatarFallback>{activity.user?.[0] || "U"}</AvatarFallback>
+                            </Avatar>
+                          </Link>
+                        ) : (
+                          <Avatar className="h-7 w-7 sm:h-8 sm:w-8 flex-shrink-0">
+                            <AvatarImage src={activity.userImage} />
+                            <AvatarFallback>{activity.user?.[0] || "U"}</AvatarFallback>
+                          </Avatar>
+                        )}
                         <div className="min-w-0">
                           <p className="text-xs sm:text-sm">
-                            <span className="font-medium">{activity.user}</span>{" "}
+                            {activity.userId ? (
+                              <Link href={`/profile/${activity.userId}`} className="font-medium hover:text-primary transition-colors">
+                                {activity.user}
+                              </Link>
+                            ) : (
+                              <span className="font-medium">{activity.user}</span>
+                            )}{" "}
                             <span className="text-muted-foreground">{activity.action}</span>{" "}
                             {activity.targetId ? (
                               <Link

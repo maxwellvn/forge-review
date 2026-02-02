@@ -137,11 +137,6 @@
     @apply mx-auto px-4 sm:px-6 lg:px-8;
     max-width: 1280px;
   }
-  /* Mobile-safe tap targets - only for standalone buttons, not inline links */
-  button:not(.inline-btn),
-  a:not(p a):not(span a):not(.inline-link):not([class*="text-"]):not(.truncate) {
-    @apply min-h-[44px];
-  }
   /* Disable text zoom on iOS inputs */
   input, textarea, select {
     font-size: 16px;

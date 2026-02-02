@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import { ThumbsUp, ThumbsDown, Award, Crown, Shield, BadgeCheck } from "lucide-react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +24,7 @@ interface ReviewCardProps {
     unhelpful: number;
     createdAt: string;
     authorId: {
+      _id: string;
       name: string;
       image?: string;
       role: string;
@@ -95,13 +97,17 @@ export function ReviewCard({ review, index = 0, initialUserVote = null }: Review
         <CardHeader className="p-4 pb-2">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
-              <Avatar className="h-10 w-10 ring-2 ring-border">
-                <AvatarImage src={review.authorId.image} />
-                <AvatarFallback>{review.authorId.name[0]}</AvatarFallback>
-              </Avatar>
+              <Link href={`/profile/${review.authorId._id}`}>
+                <Avatar className="h-10 w-10 ring-2 ring-border hover:ring-primary transition-colors">
+                  <AvatarImage src={review.authorId.image} />
+                  <AvatarFallback>{review.authorId.name[0]}</AvatarFallback>
+                </Avatar>
+              </Link>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-medium">{review.authorId.name}</span>
+                  <Link href={`/profile/${review.authorId._id}`} className="font-medium hover:text-primary transition-colors">
+                    {review.authorId.name}
+                  </Link>
                   {review.authorId.isVerified && (
                     <BadgeCheck className="h-4 w-4 text-blue-500" />
                   )}

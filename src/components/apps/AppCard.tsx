@@ -20,6 +20,7 @@ interface AppCardProps {
     pulseScore: number;
     submissionType: string;
     uploader: {
+      _id: string;
       name: string;
       image?: string;
     };

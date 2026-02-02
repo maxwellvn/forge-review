@@ -483,18 +483,18 @@ export default function AppDetailPage() {
               <div className="space-y-4 sm:space-y-6">
                 <div className="p-4 sm:p-6 rounded-xl border border-border bg-card">
                   <h3 className="font-semibold mb-3 sm:mb-4">Developer</h3>
-                  <div className="flex items-center gap-3">
+                  <Link href={`/profile/${app.uploader._id}`} className="flex items-center gap-3 hover:bg-muted/50 -m-2 p-2 rounded-lg transition-colors">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={app.uploader.image} />
                       <AvatarFallback>{app.uploader.name[0]}</AvatarFallback>
                     </Avatar>
                     <div className="min-w-0">
-                      <p className="font-medium truncate">{app.uploader.name}</p>
+                      <p className="font-medium truncate hover:text-primary transition-colors">{app.uploader.name}</p>
                       <p className="text-sm text-muted-foreground capitalize">
                         {app.uploader.role.replace("_", " ")}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 </div>
 
                 <div className="p-4 sm:p-6 rounded-xl border border-border bg-card">

@@ -52,7 +52,7 @@ export async function GET(
     }
 
     const app = await App.findById(id)
-      .populate('uploader', 'name image role')
+      .populate('uploader', '_id name image role')
       .lean();
 
     if (!app) {
@@ -133,7 +133,7 @@ export async function PATCH(
     // Clear cache
     await redis.del(`app:metadata:${id}`);
 
-    await app.populate('uploader', 'name image role');
+    await app.populate('uploader', '_id name image role');
 
     return NextResponse.json({
       app,

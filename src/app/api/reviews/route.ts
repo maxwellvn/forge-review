@@ -106,7 +106,7 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     const reviews = await Review.find({ appId })
-      .populate('authorId', 'name image role isVerified')
+      .populate('authorId', '_id name image role isVerified')
       .sort({ isSuperReview: -1, createdAt: -1 })
       .skip(skip)
       .limit(limit)

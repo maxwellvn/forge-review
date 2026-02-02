@@ -85,6 +85,7 @@ export async function GET() {
       ...recentReviews.map((review: any) => ({
         _id: review._id,
         user: review.authorId?.name || 'Unknown',
+        userId: review.authorId?._id?.toString(),
         userImage: review.authorId?.image,
         action: 'reviewed',
         target: review.appId?.title || 'an app',
@@ -94,6 +95,7 @@ export async function GET() {
       ...recentApps.map((app: any) => ({
         _id: app._id,
         user: app.uploader?.name || 'Unknown',
+        userId: app.uploader?._id?.toString(),
         userImage: app.uploader?.image,
         action: 'submitted',
         target: app.title,

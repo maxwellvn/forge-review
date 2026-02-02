@@ -312,8 +312,7 @@ export default function PublicProfilePage() {
               </TabsTrigger>
               <TabsTrigger value="discussions">
                 <MessageSquare className="hidden sm:block" />
-                <span className="hidden sm:inline">Discussions</span>
-                <span className="sm:hidden">Discuss</span>
+                Discussions
                 {discussions.length > 0 && (
                   <Badge variant="secondary" className="ml-1 text-xs">
                     {discussions.length}
