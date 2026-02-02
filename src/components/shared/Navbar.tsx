@@ -339,18 +339,33 @@ export function Navbar() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="md:hidden border-t border-border overflow-hidden"
+            className="md:hidden bg-muted/50 overflow-hidden"
           >
             <form onSubmit={handleSearchSubmit} className="px-4 py-3">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search apps..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 w-full"
-                  autoFocus
-                />
+              <div className="flex items-center gap-3">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search apps..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 w-full h-10 bg-background border-0 shadow-sm rounded-xl focus-visible:ring-1"
+                    autoFocus
+                  />
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-foreground shrink-0"
+                  onClick={() => {
+                    setSearchOpen(false);
+                    setSearchQuery("");
+                    setSearchResults([]);
+                  }}
+                >
+                  Cancel
+                </Button>
               </div>
             </form>
           </motion.div>
