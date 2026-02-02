@@ -116,7 +116,7 @@ export function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="sticky top-0 z-50 w-full border-b border-border bg-background"
+      className="sticky top-0 z-50 w-full border-b border-border bg-background overflow-hidden"
     >
       <div className="container relative flex h-14 md:h-16 items-center justify-between gap-2">
         {/* Logo - left section */}
@@ -138,12 +138,12 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation Links - absolutely centered */}
-        <nav className="desktop-nav hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+        <nav className="desktop-nav hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2 pointer-events-none">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground pointer-events-auto"
             >
               {link.label}
             </Link>
@@ -341,14 +341,14 @@ export function Navbar() {
             exit={{ height: 0, opacity: 0 }}
             className="md:hidden border-t border-border overflow-hidden"
           >
-            <form onSubmit={handleSearchSubmit} className="container py-3">
+            <form onSubmit={handleSearchSubmit} className="px-4 py-3">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search apps..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9"
+                  className="pl-9 w-full"
                   autoFocus
                 />
               </div>
