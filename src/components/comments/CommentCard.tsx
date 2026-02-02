@@ -124,8 +124,8 @@ export function CommentCard({
   }
 
   return (
-    <div className="py-3">
-      <div className="flex gap-3">
+    <div className="py-2 sm:py-3">
+      <div className="flex gap-2 sm:gap-3">
         {/* Vote buttons */}
         <div className="flex-shrink-0">
           <VoteButtons
@@ -142,34 +142,34 @@ export function CommentCard({
         {/* Content */}
         <div className="flex-1 min-w-0">
           {/* Header */}
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm flex-wrap">
             <Link
               href={`/profile/${comment.authorId._id}`}
-              className="flex items-center gap-1.5 hover:underline"
+              className="flex items-center gap-1 sm:gap-1.5 hover:underline"
             >
               {comment.authorId.image ? (
                 <Image
                   src={comment.authorId.image}
                   alt={comment.authorId.name}
-                  width={20}
-                  height={20}
-                  className="rounded-full"
+                  width={18}
+                  height={18}
+                  className="rounded-full sm:w-5 sm:h-5"
                 />
               ) : (
-                <div className="w-5 h-5 rounded-full bg-muted" />
+                <div className="w-[18px] h-[18px] sm:w-5 sm:h-5 rounded-full bg-muted" />
               )}
-              <span className="font-medium">
+              <span className="font-medium truncate max-w-[100px] sm:max-w-none">
                 {comment.authorId.username || comment.authorId.name}
               </span>
             </Link>
             <span className="text-muted-foreground">·</span>
-            <span className="text-muted-foreground">
+            <span className="text-muted-foreground whitespace-nowrap">
               {formatDistanceToNow(new Date(comment.createdAt), {
                 addSuffix: true,
               })}
             </span>
             {isEdited && (
-              <span className="text-muted-foreground text-xs">(edited)</span>
+              <span className="text-muted-foreground text-[10px] sm:text-xs">(edited)</span>
             )}
           </div>
 
@@ -186,7 +186,7 @@ export function CommentCard({
             </div>
           ) : (
             <div
-              className="prose prose-sm dark:prose-invert max-w-none mt-1"
+              className="prose prose-sm dark:prose-invert max-w-none mt-1 text-sm break-words"
               dangerouslySetInnerHTML={{ __html: comment.contentHtml }}
             />
           )}
@@ -240,7 +240,7 @@ export function CommentCard({
 
           {/* Reply form */}
           {showReplyForm && (
-            <div className="mt-3">
+            <div className="mt-2 sm:mt-3">
               <CommentForm
                 discussionId={comment.discussionId}
                 parentId={comment._id}

@@ -90,8 +90,8 @@ function CommentNodeComponent({
       {node.children.length > 0 && (
         <div
           className={cn(
-            'ml-4 pl-4 border-l-2 border-muted',
-            node.depth >= 3 && 'ml-2 pl-2'
+            'ml-2 pl-2 sm:ml-4 sm:pl-4 border-l-2 border-muted',
+            node.depth >= 3 && 'ml-1 pl-1 sm:ml-2 sm:pl-2'
           )}
         >
           {node.children.map((child) => (

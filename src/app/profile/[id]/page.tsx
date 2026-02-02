@@ -207,10 +207,10 @@ export default function PublicProfilePage() {
   const RoleIcon = role.icon;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-12">
-      <div className="container max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-6 sm:py-12">
+      <div className="container max-w-4xl px-4 sm:px-6">
         {/* Back button */}
-        <Button variant="ghost" asChild className="mb-6">
+        <Button variant="ghost" asChild className="mb-4 sm:mb-6">
           <Link href="/">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
@@ -221,10 +221,10 @@ export default function PublicProfilePage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6 sm:mb-8"
         >
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-            <Avatar className="h-24 w-24 ring-4 ring-background shadow-lg">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 sm:gap-6">
+            <Avatar className="h-20 w-20 sm:h-24 sm:w-24 ring-4 ring-background shadow-lg">
               <AvatarImage src={profile.image} alt={profile.name} />
               <AvatarFallback className="text-2xl">
                 {profile.name?.[0] || "U"}
@@ -265,20 +265,20 @@ export default function PublicProfilePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8"
         >
           {[
             { label: "Apps", value: profile.appsCount, icon: AppWindow },
             { label: "Reviews", value: profile.reviewsCount, icon: MessageSquare },
-            { label: "Helpful Votes", value: profile.helpfulVotes, icon: ThumbsUp },
+            { label: "Helpful", value: profile.helpfulVotes, icon: ThumbsUp },
             { label: "Discussions", value: profile.discussionsCount, icon: MessageSquare },
             { label: "Badges", value: profile.badges.length, icon: Award },
           ].map((stat) => (
             <Card key={stat.label}>
-              <CardContent className="p-4 text-center">
-                <stat.icon className="h-5 w-5 text-muted-foreground mx-auto mb-2" />
-                <p className="text-2xl font-bold">{stat.value}</p>
-                <p className="text-xs text-muted-foreground">{stat.label}</p>
+              <CardContent className="p-3 sm:p-4 text-center">
+                <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground mx-auto mb-1.5 sm:mb-2" />
+                <p className="text-xl sm:text-2xl font-bold">{stat.value}</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground">{stat.label}</p>
               </CardContent>
             </Card>
           ))}
@@ -291,9 +291,9 @@ export default function PublicProfilePage() {
           transition={{ delay: 0.2 }}
         >
           <Tabs defaultValue="apps" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="apps" className="gap-2">
-                <AppWindow className="h-4 w-4" />
+            <TabsList className="grid w-full sm:w-auto sm:min-w-[420px] grid-cols-3">
+              <TabsTrigger value="apps">
+                <AppWindow className="hidden sm:block" />
                 Apps
                 {apps.length > 0 && (
                   <Badge variant="secondary" className="ml-1 text-xs">
@@ -301,8 +301,8 @@ export default function PublicProfilePage() {
                   </Badge>
                 )}
               </TabsTrigger>
-              <TabsTrigger value="reviews" className="gap-2">
-                <Star className="h-4 w-4" />
+              <TabsTrigger value="reviews">
+                <Star className="hidden sm:block" />
                 Reviews
                 {reviews.length > 0 && (
                   <Badge variant="secondary" className="ml-1 text-xs">
@@ -310,9 +310,10 @@ export default function PublicProfilePage() {
                   </Badge>
                 )}
               </TabsTrigger>
-              <TabsTrigger value="discussions" className="gap-2">
-                <MessageSquare className="h-4 w-4" />
-                Discussions
+              <TabsTrigger value="discussions">
+                <MessageSquare className="hidden sm:block" />
+                <span className="hidden sm:inline">Discussions</span>
+                <span className="sm:hidden">Discuss</span>
                 {discussions.length > 0 && (
                   <Badge variant="secondary" className="ml-1 text-xs">
                     {discussions.length}

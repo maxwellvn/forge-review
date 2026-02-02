@@ -57,14 +57,14 @@ export function CommentSection({
   }, [discussionId]);
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold">
+    <div className="space-y-4 sm:space-y-6">
+      <h2 className="text-lg sm:text-xl font-semibold">
         Comments ({comments.length})
       </h2>
 
       {isLocked ? (
-        <div className="flex items-center gap-2 p-4 border rounded-lg bg-muted/50 text-muted-foreground">
-          <Lock size={16} />
+        <div className="flex items-center gap-2 p-3 sm:p-4 border rounded-lg bg-muted/50 text-muted-foreground text-sm">
+          <Lock size={14} className="flex-shrink-0 sm:w-4 sm:h-4" />
           <span>This discussion is locked. New comments are disabled.</span>
         </div>
       ) : (

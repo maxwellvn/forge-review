@@ -38,12 +38,12 @@ export function AppCard({ app, index = 0 }: AppCardProps) {
     >
       <Link href={`/apps/${app._id}`}>
         <Card className="group h-full overflow-hidden border-border bg-card hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 cursor-pointer">
-          <CardHeader className="p-4 pb-0">
-            <div className="flex items-start gap-4">
+          <CardHeader className="p-3 sm:p-4 pb-0">
+            <div className="flex items-start gap-3 sm:gap-4">
               <div className="relative">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="h-16 w-16 rounded-xl bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center text-2xl font-bold overflow-hidden border border-border"
+                  className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center text-xl sm:text-2xl font-bold overflow-hidden border border-border"
                 >
                   {app.iconUrl ? (
                     <img
@@ -56,14 +56,14 @@ export function AppCard({ app, index = 0 }: AppCardProps) {
                   )}
                 </motion.div>
                 {app.isVerified && (
-                  <div className="absolute -bottom-1 -right-1 h-5 w-5 bg-background rounded-full flex items-center justify-center">
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                  <div className="absolute -bottom-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 bg-background rounded-full flex items-center justify-center">
+                    <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4 text-green-500" />
                   </div>
                 )}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-semibold text-lg leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                  <h3 className="font-semibold text-base sm:text-lg leading-tight group-hover:text-primary transition-colors line-clamp-2">
                     {app.title}
                   </h3>
                   {app.pulseScore > 100 && (
@@ -90,25 +90,25 @@ export function AppCard({ app, index = 0 }: AppCardProps) {
             </div>
           </CardHeader>
 
-          <CardContent className="p-4 pt-3">
-            <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+          <CardContent className="p-3 sm:p-4 pt-2.5 sm:pt-3">
+            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-2.5 sm:mb-3">
               {app.shortDescription}
             </p>
 
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-2.5 sm:mb-3">
               <div className="flex items-center gap-1">
-                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span className="font-medium">{app.averageRating.toFixed(1)}</span>
-                <span className="text-xs text-muted-foreground">
+                <Star className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-yellow-400 text-yellow-400" />
+                <span className="font-medium text-sm">{app.averageRating.toFixed(1)}</span>
+                <span className="text-[10px] sm:text-xs text-muted-foreground">
                   ({app.totalReviews})
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <Avatar className="h-6 w-6">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <Avatar className="h-5 w-5 sm:h-6 sm:w-6">
                   <AvatarImage src={app.uploader.image} />
-                  <AvatarFallback>{app.uploader.name[0]}</AvatarFallback>
+                  <AvatarFallback className="text-[10px] sm:text-xs">{app.uploader.name[0]}</AvatarFallback>
                 </Avatar>
-                <span className="text-xs text-muted-foreground truncate max-w-[80px]">
+                <span className="text-[10px] sm:text-xs text-muted-foreground truncate max-w-[60px] sm:max-w-[80px]">
                   {app.uploader.name}
                 </span>
               </div>

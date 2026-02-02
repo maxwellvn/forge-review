@@ -118,8 +118,8 @@ export function Navbar() {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="sticky top-0 z-50 w-full border-b border-border bg-background"
     >
-      <div className="container flex h-14 md:h-16 items-center justify-between gap-2">
-        {/* Logo */}
+      <div className="container relative flex h-14 md:h-16 items-center justify-between gap-2">
+        {/* Logo - left section */}
         <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -137,8 +137,8 @@ export function Navbar() {
           </motion.div>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav className="desktop-nav hidden md:flex items-center gap-6">
+        {/* Desktop Navigation Links - absolutely centered */}
+        <nav className="desktop-nav hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
           {navLinks.map((link) => (
             <Link
               key={link.href}

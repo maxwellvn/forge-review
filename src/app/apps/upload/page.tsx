@@ -24,19 +24,19 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-12">
-      <div className="container max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-6 sm:py-12">
+      <div className="container max-w-4xl px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center mb-6 sm:mb-12"
         >
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-6">
-            <Upload className="h-8 w-8 text-primary" />
+          <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-primary/10 mb-4 sm:mb-6">
+            <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold mb-3">Submit Your App</h1>
-          <p className="text-muted-foreground max-w-lg mx-auto">
-            Share your digital product with our community. Fill out the form below and 
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3">Submit Your App</h1>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-lg mx-auto px-2 sm:px-0">
+            Share your digital product with our community. Fill out the form below and
             our moderators will review your submission.
           </p>
         </motion.div>
@@ -53,7 +53,7 @@ export default function UploadPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="mt-12 text-center text-sm text-muted-foreground"
+          className="mt-8 sm:mt-12 text-center text-xs sm:text-sm text-muted-foreground px-4"
         >
           <p>
             By submitting, you agree to our{" "}

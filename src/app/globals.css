@@ -124,13 +124,41 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    @apply scroll-smooth;
+    -webkit-text-size-adjust: 100%;
+  }
   body {
     @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   .container {
     @apply mx-auto px-4 sm:px-6 lg:px-8;
     max-width: 1280px;
   }
+  /* Mobile-safe tap targets - only for standalone buttons, not inline links */
+  button:not(.inline-btn),
+  a:not(p a):not(span a):not(.inline-link):not([class*="text-"]):not(.truncate) {
+    @apply min-h-[44px];
+  }
+  /* Disable text zoom on iOS inputs */
+  input, textarea, select {
+    font-size: 16px;
+  }
+  /* Prevent horizontal scroll on mobile */
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Utility for hiding scrollbars while maintaining scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* Fix for mobile menu visibility on desktop */

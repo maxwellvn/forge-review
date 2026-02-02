@@ -133,18 +133,18 @@ export default function CommunityPage() {
     <div className="min-h-screen">
       {/* Header */}
       <section className="border-b border-border bg-gradient-to-b from-primary/5 to-background">
-        <div className="container py-12">
+        <div className="container py-8 sm:py-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center max-w-2xl mx-auto"
+            className="text-center max-w-2xl mx-auto px-2"
           >
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-primary mb-6">
-              <Users className="h-5 w-5" />
-              <span className="font-medium">Community Hub</span>
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 sm:px-4 sm:py-2 text-primary mb-4 sm:mb-6">
+              <Users className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="font-medium text-sm sm:text-base">Community Hub</span>
             </div>
-            <h1 className="text-3xl font-bold mb-4">Join Our Reviewer Community</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Join Our Reviewer Community</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">
               Connect with fellow reviewers, climb the leaderboards, and unlock exclusive
               badges through quality contributions.
             </p>
@@ -153,8 +153,8 @@ export default function CommunityPage() {
       </section>
 
       {/* Stats */}
-      <section className="container py-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <section className="container py-6 sm:py-8 px-4 sm:px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -163,16 +163,16 @@ export default function CommunityPage() {
               transition={{ delay: index * 0.1 }}
             >
               <Card>
-                <CardContent className="p-6">
-                  <stat.icon className="h-5 w-5 text-muted-foreground mb-2" />
+                <CardContent className="p-4 sm:p-6">
+                  <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground mb-1.5 sm:mb-2" />
                   {loading ? (
-                    <Skeleton className="h-8 w-20 mb-1" />
+                    <Skeleton className="h-7 sm:h-8 w-16 sm:w-20 mb-1" />
                   ) : (
-                    <p className="text-2xl font-bold">
+                    <p className="text-xl sm:text-2xl font-bold">
                       {stat.suffix ? `${stat.value}${stat.suffix}` : formatNumber(stat.value)}
                     </p>
                   )}
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -181,25 +181,27 @@ export default function CommunityPage() {
       </section>
 
       {/* Main Content */}
-      <section className="container py-8">
-        <Tabs defaultValue="leaderboard" className="space-y-8">
-          <TabsList className="grid w-full max-w-lg mx-auto grid-cols-3">
-            <TabsTrigger value="leaderboard" className="gap-2">
-              <Trophy className="h-4 w-4" />
-              Leaderboard
+      <section className="container py-6 sm:py-8 px-4 sm:px-6">
+        <Tabs defaultValue="leaderboard" className="space-y-6 sm:space-y-8">
+          <TabsList className="grid w-full sm:w-auto sm:min-w-[420px] sm:mx-auto grid-cols-3">
+            <TabsTrigger value="leaderboard">
+              <Trophy className="hidden sm:block" />
+              <span className="hidden sm:inline">Leaderboard</span>
+              <span className="sm:hidden">Leaders</span>
             </TabsTrigger>
-            <TabsTrigger value="discussions" className="gap-2">
-              <MessageSquare className="h-4 w-4" />
-              Discussions
+            <TabsTrigger value="discussions">
+              <MessageSquare className="hidden sm:block" />
+              <span className="hidden sm:inline">Discussions</span>
+              <span className="sm:hidden">Discuss</span>
             </TabsTrigger>
-            <TabsTrigger value="activity" className="gap-2">
-              <Users className="h-4 w-4" />
+            <TabsTrigger value="activity">
+              <Users className="hidden sm:block" />
               Activity
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="leaderboard" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
               {/* Top Reviewers */}
               <div className="lg:col-span-2">
                 <Card>
@@ -209,15 +211,15 @@ export default function CommunityPage() {
                       Top Reviewers
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
+                  <CardContent className="space-y-3 sm:space-y-4">
                     {loading ? (
                       [...Array(5)].map((_, i) => (
-                        <div key={i} className="flex items-center gap-4 p-4">
-                          <Skeleton className="h-8 w-8 rounded-full" />
-                          <Skeleton className="h-12 w-12 rounded-full" />
+                        <div key={i} className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4">
+                          <Skeleton className="h-7 w-7 sm:h-8 sm:w-8 rounded-full" />
+                          <Skeleton className="h-10 w-10 sm:h-12 sm:w-12 rounded-full" />
                           <div className="flex-1 space-y-2">
-                            <Skeleton className="h-4 w-32" />
-                            <Skeleton className="h-3 w-48" />
+                            <Skeleton className="h-4 w-24 sm:w-32" />
+                            <Skeleton className="h-3 w-36 sm:w-48" />
                           </div>
                         </div>
                       ))
@@ -230,9 +232,9 @@ export default function CommunityPage() {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className="flex items-center gap-4 p-4 rounded-lg border border-border hover:bg-muted/50 transition-colors"
+                            className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg border border-border hover:bg-muted/50 transition-colors"
                           >
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
+                            <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm ${
                               index === 0 ? "bg-yellow-400 text-yellow-900" :
                               index === 1 ? "bg-gray-300 text-gray-700" :
                               index === 2 ? "bg-orange-400 text-orange-900" :
@@ -240,20 +242,21 @@ export default function CommunityPage() {
                             }`}>
                               {index + 1}
                             </div>
-                            <Avatar className="h-12 w-12">
+                            <Avatar className="h-10 w-10 sm:h-12 sm:w-12">
                               <AvatarImage src={reviewer.image} />
                               <AvatarFallback>{reviewer.name?.[0] || "U"}</AvatarFallback>
                             </Avatar>
-                            <div className="flex-1">
+                            <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <span className="font-medium">{reviewer.name}</span>
-                                <Badge variant="secondary" className={`${role.bgColor} ${role.color} border-0`}>
+                                <span className="font-medium text-sm sm:text-base truncate">{reviewer.name}</span>
+                                <Badge variant="secondary" className={`${role.bgColor} ${role.color} border-0 text-[10px] sm:text-xs`}>
                                   <role.icon className="h-3 w-3 mr-1" />
-                                  {role.label}
+                                  <span className="hidden sm:inline">{role.label}</span>
+                                  <span className="sm:hidden">{role.label.split(' ')[0]}</span>
                                 </Badge>
                               </div>
-                              <p className="text-sm text-muted-foreground">
-                                {reviewer.reviews} reviews • {reviewer.helpful} helpful votes
+                              <p className="text-xs sm:text-sm text-muted-foreground">
+                                {reviewer.reviews} reviews • {reviewer.helpful} helpful
                               </p>
                             </div>
                           </motion.div>
@@ -408,18 +411,18 @@ export default function CommunityPage() {
 
           <TabsContent value="activity" className="space-y-6">
             <Card>
-              <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="text-base sm:text-lg">Recent Activity</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4">
                 {loading ? (
                   [...Array(5)].map((_, i) => (
-                    <div key={i} className="flex items-center justify-between p-4">
-                      <div className="flex items-center gap-3">
-                        <Skeleton className="h-8 w-8 rounded-full" />
-                        <Skeleton className="h-4 w-64" />
+                    <div key={i} className="flex items-center justify-between p-3 sm:p-4">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <Skeleton className="h-7 w-7 sm:h-8 sm:w-8 rounded-full" />
+                        <Skeleton className="h-4 w-40 sm:w-64" />
                       </div>
-                      <Skeleton className="h-3 w-16" />
+                      <Skeleton className="h-3 w-12 sm:w-16" />
                     </div>
                   ))
                 ) : data?.recentActivity && data.recentActivity.length > 0 ? (
@@ -429,39 +432,39 @@ export default function CommunityPage() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="flex items-center justify-between p-4 rounded-lg border border-border"
+                      className="flex items-start sm:items-center justify-between gap-2 p-3 sm:p-4 rounded-lg border border-border"
                     >
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-8 w-8">
+                      <div className="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0">
+                        <Avatar className="h-7 w-7 sm:h-8 sm:w-8 flex-shrink-0">
                           <AvatarImage src={activity.userImage} />
                           <AvatarFallback>{activity.user?.[0] || "U"}</AvatarFallback>
                         </Avatar>
-                        <div>
-                          <p className="text-sm">
+                        <div className="min-w-0">
+                          <p className="text-xs sm:text-sm">
                             <span className="font-medium">{activity.user}</span>{" "}
                             <span className="text-muted-foreground">{activity.action}</span>{" "}
                             {activity.targetId ? (
                               <Link
                                 href={`/apps/${activity.targetId}`}
-                                className="font-medium text-primary hover:underline"
+                                className="font-medium text-primary hover:underline truncate"
                               >
                                 {activity.target}
                               </Link>
                             ) : (
-                              <span className="font-medium text-primary">{activity.target}</span>
+                              <span className="font-medium text-primary truncate">{activity.target}</span>
                             )}
                           </p>
                         </div>
                       </div>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-[10px] sm:text-xs text-muted-foreground flex-shrink-0">
                         {formatTimeAgo(activity.time)}
                       </span>
                     </motion.div>
                   ))
                 ) : (
-                  <div className="text-center py-8 text-muted-foreground">
-                    <MessageSquare className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p>No recent activity yet.</p>
+                  <div className="text-center py-6 sm:py-8 text-muted-foreground">
+                    <MessageSquare className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-4 opacity-50" />
+                    <p className="text-sm">No recent activity yet.</p>
                   </div>
                 )}
               </CardContent>

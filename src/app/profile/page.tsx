@@ -214,13 +214,13 @@ export default function ProfilePage() {
   const RoleIcon = role.icon;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-12">
-      <div className="container max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-6 sm:py-12">
+      <div className="container max-w-4xl px-4 sm:px-6">
         {/* Profile Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6 sm:mb-8"
         >
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
             <div className="relative">
@@ -285,7 +285,7 @@ export default function ProfilePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+          className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8"
         >
           {[
             {
@@ -310,10 +310,10 @@ export default function ProfilePage() {
             },
           ].map((stat, index) => (
             <Card key={stat.label}>
-              <CardContent className="p-4">
-                <stat.icon className="h-5 w-5 text-muted-foreground mb-2" />
-                <p className="text-2xl font-bold">{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
+              <CardContent className="p-3 sm:p-4">
+                <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground mb-1.5 sm:mb-2" />
+                <p className="text-xl sm:text-2xl font-bold">{stat.value}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
               </CardContent>
             </Card>
           ))}
@@ -326,22 +326,22 @@ export default function ProfilePage() {
           transition={{ delay: 0.2 }}
         >
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="overview" className="gap-2">
-                <User className="h-4 w-4" />
+            <TabsList className="grid w-full sm:w-auto sm:min-w-[420px] grid-cols-3">
+              <TabsTrigger value="overview">
+                <User className="hidden sm:block" />
                 Overview
               </TabsTrigger>
-              <TabsTrigger value="reviews" className="gap-2">
-                <MessageSquare className="h-4 w-4" />
-                My Reviews
+              <TabsTrigger value="reviews">
+                <MessageSquare className="hidden sm:block" />
+                Reviews
                 {reviews.length > 0 && (
                   <Badge variant="secondary" className="ml-1 text-xs">
                     {reviews.length}
                   </Badge>
                 )}
               </TabsTrigger>
-              <TabsTrigger value="settings" className="gap-2">
-                <Settings className="h-4 w-4" />
+              <TabsTrigger value="settings">
+                <Settings className="hidden sm:block" />
                 Settings
               </TabsTrigger>
             </TabsList>

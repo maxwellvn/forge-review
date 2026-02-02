@@ -124,25 +124,25 @@ export function AppUploadForm() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
+      <div className="mb-6 sm:mb-8">
+        <div className="flex items-center justify-between overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
           {steps.map((step, index) => (
-            <div key={step.id} className="flex items-center">
+            <div key={step.id} className="flex items-center flex-shrink-0">
               <motion.div
                 initial={false}
                 animate={{
                   backgroundColor: index <= currentStep ? "hsl(var(--primary))" : "hsl(var(--muted))",
                   color: index <= currentStep ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))",
                 }}
-                className="flex items-center justify-center w-10 h-10 rounded-full font-medium text-sm"
+                className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full font-medium text-xs sm:text-sm"
               >
                 {index + 1}
               </motion.div>
-              <span className={`ml-2 text-sm font-medium ${index <= currentStep ? "text-foreground" : "text-muted-foreground"}`}>
+              <span className={`ml-1.5 sm:ml-2 text-xs sm:text-sm font-medium ${index <= currentStep ? "text-foreground" : "text-muted-foreground"} whitespace-nowrap`}>
                 {step.label}
               </span>
               {index < steps.length - 1 && (
-                <div className="w-12 h-0.5 mx-4 bg-muted" />
+                <div className="w-6 sm:w-12 h-0.5 mx-2 sm:mx-4 bg-muted" />
               )}
             </div>
           ))}
@@ -150,7 +150,7 @@ export function AppUploadForm() {
       </div>
 
       <Card>
-        <CardContent className="p-6">
+        <CardContent className="p-4 sm:p-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {currentStep === 0 && (
               <motion.div
@@ -159,25 +159,25 @@ export function AppUploadForm() {
                 className="space-y-4"
               >
                 <div>
-                  <Label htmlFor="title">App Name</Label>
+                  <Label htmlFor="title" className="text-sm sm:text-base">App Name</Label>
                   <Input
                     id="title"
                     placeholder="Enter your app name"
                     {...register("title")}
-                    className={errors.title ? "border-destructive" : ""}
+                    className={`text-sm sm:text-base ${errors.title ? "border-destructive" : ""}`}
                   />
                   {errors.title && (
-                    <p className="text-sm text-destructive mt-1">{errors.title.message}</p>
+                    <p className="text-xs sm:text-sm text-destructive mt-1">{errors.title.message}</p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor="category">Category</Label>
+                  <Label htmlFor="category" className="text-sm sm:text-base">Category</Label>
                   {categoriesLoading ? (
                     <Skeleton className="h-10 w-full" />
                   ) : (
                     <Select onValueChange={(value) => setValue("category", value)}>
-                      <SelectTrigger>
+                      <SelectTrigger className="text-sm">
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
@@ -190,28 +190,28 @@ export function AppUploadForm() {
                     </Select>
                   )}
                   {errors.category && (
-                    <p className="text-sm text-destructive mt-1">{errors.category.message}</p>
+                    <p className="text-xs sm:text-sm text-destructive mt-1">{errors.category.message}</p>
                   )}
                 </div>
 
                 <div>
-                  <Label>Submission Type</Label>
+                  <Label className="text-sm sm:text-base">Submission Type</Label>
                   <Tabs
                     defaultValue="link"
                     onValueChange={(value) => setValue("submissionType", value as any)}
                     className="mt-2"
                   >
                     <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="link" className="gap-2">
-                        <Link className="h-4 w-4" />
+                      <TabsTrigger value="link">
+                        <Link />
                         Link
                       </TabsTrigger>
-                      <TabsTrigger value="package" className="gap-2">
-                        <Package className="h-4 w-4" />
+                      <TabsTrigger value="package">
+                        <Package />
                         Package
                       </TabsTrigger>
-                      <TabsTrigger value="store" className="gap-2">
-                        <Store className="h-4 w-4" />
+                      <TabsTrigger value="store">
+                        <Store />
                         Store
                       </TabsTrigger>
                     </TabsList>
@@ -219,7 +219,7 @@ export function AppUploadForm() {
                 </div>
 
                 <div>
-                  <Label htmlFor="downloadUrl">
+                  <Label htmlFor="downloadUrl" className="text-sm sm:text-base">
                     {submissionType === "link" && "App URL"}
                     {submissionType === "package" && "Package URL"}
                     {submissionType === "store" && "Store URL"}
@@ -234,28 +234,30 @@ export function AppUploadForm() {
                         : "https://play.google.com/store/apps/..."
                     }
                     {...register("downloadUrl")}
-                    className={errors.downloadUrl ? "border-destructive" : ""}
+                    className={`text-sm sm:text-base ${errors.downloadUrl ? "border-destructive" : ""}`}
                   />
                   {errors.downloadUrl && (
-                    <p className="text-sm text-destructive mt-1">{errors.downloadUrl.message}</p>
+                    <p className="text-xs sm:text-sm text-destructive mt-1">{errors.downloadUrl.message}</p>
                   )}
                 </div>
 
                 <div>
-                  <Label>App Icon</Label>
+                  <Label className="text-sm sm:text-base">App Icon</Label>
                   <Tabs
                     value={iconInputType}
                     onValueChange={(value) => setIconInputType(value as "url" | "upload")}
                     className="mt-2"
                   >
                     <TabsList className="grid w-full grid-cols-2">
-                      <TabsTrigger value="url" className="gap-2">
-                        <Link className="h-4 w-4" />
-                        Image URL
+                      <TabsTrigger value="url" className="gap-1 sm:gap-2 text-xs sm:text-sm">
+                        <Link className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        <span className="hidden sm:inline">Image URL</span>
+                        <span className="sm:hidden">URL</span>
                       </TabsTrigger>
-                      <TabsTrigger value="upload" className="gap-2">
-                        <Upload className="h-4 w-4" />
-                        Upload
+                      <TabsTrigger value="upload" className="gap-1 sm:gap-2 text-xs sm:text-sm">
+                        <Upload className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        <span className="hidden sm:inline">Upload</span>
+                        <span className="sm:hidden">Upload</span>
                       </TabsTrigger>
                     </TabsList>
                     <TabsContent value="url" className="mt-3">
@@ -266,12 +268,13 @@ export function AppUploadForm() {
                           setIconUrl(e.target.value);
                           setIconPreview(e.target.value);
                         }}
+                        className="text-sm"
                       />
                     </TabsContent>
                     <TabsContent value="upload" className="mt-3">
-                      <div className="border-2 border-dashed rounded-lg p-6 text-center">
-                        <ImageIcon className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-                        <p className="text-sm text-muted-foreground">
+                      <div className="border-2 border-dashed rounded-lg p-4 sm:p-6 text-center">
+                        <ImageIcon className="h-6 w-6 sm:h-8 sm:w-8 mx-auto text-muted-foreground mb-2" />
+                        <p className="text-xs sm:text-sm text-muted-foreground">
                           Upload coming soon - use Image URL for now
                         </p>
                       </div>
@@ -279,7 +282,7 @@ export function AppUploadForm() {
                   </Tabs>
                   {iconPreview && (
                     <div className="mt-3 flex items-center gap-3">
-                      <div className="relative h-16 w-16 rounded-xl overflow-hidden border bg-muted">
+                      <div className="relative h-14 w-14 sm:h-16 sm:w-16 rounded-xl overflow-hidden border bg-muted">
                         <img
                           src={iconPreview}
                           alt="Icon preview"
@@ -287,7 +290,7 @@ export function AppUploadForm() {
                           onError={() => setIconPreview(null)}
                         />
                       </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-xs sm:text-sm text-muted-foreground">
                         Icon preview
                       </div>
                       <Button
@@ -298,6 +301,7 @@ export function AppUploadForm() {
                           setIconUrl("");
                           setIconPreview(null);
                         }}
+                        className="h-8 w-8 p-0"
                       >
                         <X className="h-4 w-4" />
                       </Button>
@@ -314,54 +318,56 @@ export function AppUploadForm() {
                 className="space-y-4"
               >
                 <div>
-                  <Label htmlFor="shortDescription">Short Description</Label>
+                  <Label htmlFor="shortDescription" className="text-sm sm:text-base">Short Description</Label>
                   <Textarea
                     id="shortDescription"
                     placeholder="Brief description (max 200 chars)"
                     maxLength={200}
                     {...register("shortDescription")}
-                    className={errors.shortDescription ? "border-destructive" : ""}
+                    className={`text-sm sm:text-base ${errors.shortDescription ? "border-destructive" : ""}`}
+                    rows={2}
                   />
                   {errors.shortDescription && (
-                    <p className="text-sm text-destructive mt-1">{errors.shortDescription.message}</p>
+                    <p className="text-xs sm:text-sm text-destructive mt-1">{errors.shortDescription.message}</p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor="description">Full Description</Label>
+                  <Label htmlFor="description" className="text-sm sm:text-base">Full Description</Label>
                   <Textarea
                     id="description"
                     placeholder="Detailed description of your app"
-                    rows={6}
+                    rows={4}
                     {...register("description")}
-                    className={errors.description ? "border-destructive" : ""}
+                    className={`text-sm sm:text-base ${errors.description ? "border-destructive" : ""}`}
                   />
                   {errors.description && (
-                    <p className="text-sm text-destructive mt-1">{errors.description.message}</p>
+                    <p className="text-xs sm:text-sm text-destructive mt-1">{errors.description.message}</p>
                   )}
                 </div>
 
                 <div>
-                  <Label>Tags (max 5)</Label>
+                  <Label className="text-sm sm:text-base">Tags (max 5)</Label>
                   <div className="flex gap-2 mt-2">
                     <Input
                       placeholder="Add a tag"
                       value={tagInput}
                       onChange={(e) => setTagInput(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
+                      className="text-sm"
                     />
-                    <Button type="button" variant="outline" onClick={addTag}>
+                    <Button type="button" variant="outline" onClick={addTag} size="sm" className="px-3">
                       Add
                     </Button>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="gap-1">
+                      <Badge key={tag} variant="secondary" className="gap-1 text-xs sm:text-sm">
                         #{tag}
                         <button
                           type="button"
                           onClick={() => removeTag(tag)}
-                          className="ml-1 hover:text-destructive"
+                          className="ml-1 hover:text-destructive min-h-[20px] min-w-[20px] flex items-center justify-center"
                         >
                           <X className="h-3 w-3" />
                         </button>
@@ -378,22 +384,23 @@ export function AppUploadForm() {
                 animate={{ opacity: 1, x: 0 }}
                 className="text-center space-y-4"
               >
-                <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
-                  <Upload className="h-8 w-8 text-primary" />
+                <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
+                  <Upload className="h-7 w-7 sm:h-8 sm:w-8 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold">Ready to Submit</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-base sm:text-lg font-semibold">Ready to Submit</h3>
+                <p className="text-sm text-muted-foreground">
                   Your app will be reviewed by our moderators before going live.
                 </p>
               </motion.div>
             )}
 
-            <div className="flex justify-between pt-4">
+            <div className="flex justify-between pt-4 sm:pt-6">
               {currentStep > 0 && (
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => setCurrentStep(currentStep - 1)}
+                  size="sm"
                 >
                   Back
                 </Button>
@@ -403,6 +410,7 @@ export function AppUploadForm() {
                   type="button"
                   className="ml-auto"
                   onClick={() => setCurrentStep(currentStep + 1)}
+                  size="sm"
                 >
                   Next
                 </Button>
@@ -411,6 +419,7 @@ export function AppUploadForm() {
                   type="submit"
                   className="ml-auto"
                   disabled={isSubmitting}
+                  size="sm"
                 >
                   {isSubmitting ? "Submitting..." : "Submit App"}
                 </Button>

@@ -87,36 +87,36 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background" />
-        <div className="container relative py-20 lg:py-32">
+        <div className="container relative py-12 sm:py-20 lg:py-32">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="max-w-3xl"
           >
-            <div className="flex items-center gap-2 mb-6">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+            <div className="flex items-center gap-2 mb-4 sm:mb-6">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs sm:text-sm font-medium text-primary">
                 <Sparkles className="h-3.5 w-3.5" />
                 Community-Powered Reviews
               </span>
             </div>
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl mb-6">
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight lg:text-6xl mb-4 sm:mb-6">
               Discover & Review{" "}
               <span className="text-primary">Digital Products</span>
             </h1>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl">
+            <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 max-w-2xl">
               Join our tiered reviewer community. Share insights, discover amazing apps, 
               and help others make informed decisions about digital products.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/apps/upload">
-                <Button size="lg" className="gap-2">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+              <Link href="/apps/upload" className="w-full sm:w-auto">
+                <Button size="lg" className="gap-2 w-full sm:w-auto">
                   <Flame className="h-4 w-4" />
                   Submit Your App
                 </Button>
               </Link>
-              <Link href="#apps">
-                <Button size="lg" variant="outline">
+              <Link href="#apps" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto">
                   Explore Apps
                 </Button>
               </Link>
@@ -124,7 +124,7 @@ export default function Home() {
           </motion.div>
 
           {/* Bento Grid Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-10 sm:mt-16">
             {[
               { label: "Total Apps", value: stats?.totalApps ?? 0 },
               { label: "Active Reviewers", value: stats?.totalReviewers ?? 0 },
@@ -136,12 +136,12 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + index * 0.1 }}
-                className="p-4 rounded-xl border border-border bg-card"
+                className="p-3 sm:p-4 rounded-xl border border-border bg-card"
               >
-                <p className="text-2xl font-bold">
+                <p className="text-xl sm:text-2xl font-bold">
                   {typeof stat.value === 'number' ? stat.value.toLocaleString() : stat.value}
                 </p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -149,35 +149,33 @@ export default function Home() {
       </section>
 
       {/* Apps Section */}
-      <section id="apps" className="py-16">
+      <section id="apps" className="py-8 sm:py-16">
         <div className="container">
-          <Tabs defaultValue="discover" className="space-y-8">
-            <div className="flex items-center justify-between">
-              <TabsList className="grid w-full max-w-md grid-cols-3">
-                <TabsTrigger value="discover" className="gap-2">
-                  <Sparkles className="h-4 w-4" />
-                  Discover
-                </TabsTrigger>
-                <TabsTrigger value="trending" className="gap-2">
-                  <TrendingUp className="h-4 w-4" />
-                  Trending
-                </TabsTrigger>
-                <TabsTrigger value="recent" className="gap-2">
-                  <Clock className="h-4 w-4" />
-                  Recent
-                </TabsTrigger>
-              </TabsList>
-            </div>
+          <Tabs defaultValue="discover" className="space-y-6 sm:space-y-8">
+            <TabsList className="grid w-full sm:w-auto sm:min-w-[400px] grid-cols-3">
+              <TabsTrigger value="discover">
+                <Sparkles className="hidden sm:block" />
+                Discover
+              </TabsTrigger>
+              <TabsTrigger value="trending">
+                <TrendingUp className="hidden sm:block" />
+                Trending
+              </TabsTrigger>
+              <TabsTrigger value="recent">
+                <Clock className="hidden sm:block" />
+                Recent
+              </TabsTrigger>
+            </TabsList>
 
             <TabsContent value="discover" className="space-y-4">
               {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                   {Array.from({ length: 8 }).map((_, i) => (
-                    <Skeleton key={i} className="h-[280px]" />
+                    <Skeleton key={i} className="h-[260px] sm:h-[280px]" />
                   ))}
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                   {apps.map((app, index) => (
                     <AppCard key={app._id} app={app} index={index} />
                   ))}
@@ -186,7 +184,7 @@ export default function Home() {
             </TabsContent>
 
             <TabsContent value="trending" className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                 {trendingApps.map((app, index) => (
                   <AppCard key={app._id} app={app} index={index} />
                 ))}
@@ -194,7 +192,7 @@ export default function Home() {
             </TabsContent>
 
             <TabsContent value="recent" className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                 {apps.slice(0, 8).map((app, index) => (
                   <AppCard key={app._id} app={app} index={index} />
                 ))}

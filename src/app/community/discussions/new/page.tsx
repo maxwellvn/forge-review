@@ -27,7 +27,7 @@ export default async function NewDiscussionPage() {
 
   if (!user || !canCreateDiscussion(user.role)) {
     return (
-      <div className="container max-w-2xl py-8">
+      <div className="container max-w-2xl py-4 px-3 sm:py-8 sm:px-4">
         <Breadcrumb
           items={[
             { label: 'Community', href: '/community' },
@@ -37,7 +37,7 @@ export default async function NewDiscussionPage() {
         />
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
+          <AlertDescription className="text-sm">
             You need to be a verified reviewer to create discussions.{' '}
             <Link href="/profile" className="underline">
               View your profile
@@ -50,7 +50,7 @@ export default async function NewDiscussionPage() {
   }
 
   return (
-    <div className="container max-w-2xl py-8">
+    <div className="container max-w-2xl py-4 px-3 sm:py-8 sm:px-4">
       <Breadcrumb
         items={[
           { label: 'Community', href: '/community' },
@@ -59,14 +59,14 @@ export default async function NewDiscussionPage() {
         ]}
       />
 
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">New Discussion</h1>
-        <p className="text-muted-foreground mt-1">
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold">New Discussion</h1>
+        <p className="text-sm sm:text-base text-muted-foreground mt-1">
           Start a conversation with the community
         </p>
       </div>
 
-      <div className="border rounded-lg p-6 bg-card">
+      <div className="border rounded-lg p-4 sm:p-6 bg-card">
         <DiscussionForm />
       </div>
     </div>
