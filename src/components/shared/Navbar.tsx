@@ -137,7 +137,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -152,7 +152,7 @@ export function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-3">
           {/* Desktop Search */}
-          <div ref={searchRef} className="relative hidden md:block">
+          <div ref={searchRef} className="relative">
             <form onSubmit={handleSearchSubmit}>
               <div className="flex items-center h-9 w-[240px] rounded-md border border-input bg-background px-3 gap-2">
                 <Search className="h-4 w-4 text-muted-foreground shrink-0" />
@@ -227,20 +227,10 @@ export function Navbar() {
             </AnimatePresence>
           </div>
 
-          {/* Mobile Search Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9 md:hidden"
-            onClick={() => setSearchOpen(!searchOpen)}
-          >
-            <Search className="h-4 w-4" />
-          </Button>
-
           {session ? (
             <>
               {/* Submit App Button */}
-              <Link href="/apps/upload" className="hidden sm:block">
+              <Link href="/apps/upload">
                 <Button variant="outline" size="sm" className="h-9 gap-2">
                   <Upload className="h-4 w-4" />
                   <span className="hidden lg:inline">Submit</span>
@@ -315,15 +305,6 @@ export function Navbar() {
             </Link>
           )}
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9 md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
         </div>
       </div>
 
