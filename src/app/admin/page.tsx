@@ -97,12 +97,12 @@ export default function AdminDashboard() {
           <h1 className="text-3xl font-bold">Dashboard</h1>
           <p className="text-muted-foreground">Overview of your platform</p>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid-responsive-4">
           {[...Array(4)].map((_, i) => (
             <Skeleton key={i} className="h-32" />
           ))}
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid-responsive-3">
           {[...Array(3)].map((_, i) => (
             <Skeleton key={i} className="h-64" />
           ))}
@@ -120,7 +120,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid-responsive-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
@@ -175,7 +175,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Staff Stats */}
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid-responsive-4">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-2">
@@ -215,7 +215,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recent Activity */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid-responsive-3">
         {/* Recent Users */}
         <Card>
           <CardHeader>

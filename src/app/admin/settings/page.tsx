@@ -47,7 +47,7 @@ export default function AdminSettingsPage() {
           <CardDescription>Current deployment environment</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid-responsive-2">
             <div className="space-y-1">
               <p className="text-sm font-medium">Environment</p>
               <Badge variant="secondary">

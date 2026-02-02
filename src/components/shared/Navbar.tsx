@@ -117,42 +117,67 @@ export function Navbar() {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="sticky top-0 z-50 w-full border-b border-border bg-background"
     >
-      <div className="container flex h-14 md:h-16 items-center justify-between gap-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2"
-          >
-            <Image
-              src="/logo.webp"
-              alt="APP Review Logo"
-              width={32}
-              height={32}
-              className="h-8 w-8 object-contain"
-            />
-            <h1 className="text-xl font-bold tracking-tight">App Review</h1>
-          </motion.div>
-        </Link>
-
-        {/* Desktop Navigation - hidden on mobile */}
-        <nav className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+      <div className="container flex h-14 md:h-16 items-center gap-4">
+        {/* Logo + Desktop Nav */}
+        <div className="flex items-center gap-8">
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-2"
             >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+              <Image
+                src="/logo.webp"
+                alt="APP Review Logo"
+                width={32}
+                height={32}
+                className="h-8 w-8 object-contain"
+              />
+              <h1 className="text-xl font-bold tracking-tight">App Review</h1>
+            </motion.div>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="desktop-nav hidden md:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        {/* Spacer */}
+        <div className="flex-1" />
 
         {/* Right side */}
-        <div className="flex items-center gap-3">
-          {/* Desktop Search - hidden on mobile */}
-          <div ref={searchRef} className="relative hidden md:block">
+        <div className="flex items-center gap-2 md:gap-3">
+          {/* Mobile Menu Button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mobile-menu-button md:hidden h-9 w-9 p-0"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
+
+          {/* Mobile Search Button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mobile-menu-button md:hidden h-9 w-9 p-0"
+            onClick={() => setSearchOpen(!searchOpen)}
+          >
+            <Search className="h-5 w-5" />
+          </Button>
+
+          {/* Desktop Search */}
+          <div ref={searchRef} className="desktop-block relative hidden md:block">
             <form onSubmit={handleSearchSubmit}>
               <div className="flex items-center h-9 w-[240px] rounded-md border border-input bg-background px-3 gap-2">
                 <Search className="h-4 w-4 text-muted-foreground shrink-0" />
@@ -227,20 +252,10 @@ export function Navbar() {
             </AnimatePresence>
           </div>
 
-          {/* Mobile Search Button - visible on mobile only */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9 md:hidden"
-            onClick={() => setSearchOpen(!searchOpen)}
-          >
-            <Search className="h-4 w-4" />
-          </Button>
-
           {session ? (
             <>
-              {/* Submit App Button - hidden on small mobile */}
-              <Link href="/apps/upload" className="hidden sm:block">
+              {/* Submit App Button - Desktop only */}
+              <Link href="/apps/upload" className="desktop-block-sm hidden sm:block">
                 <Button variant="outline" size="sm" className="h-9 gap-2">
                   <Upload className="h-4 w-4" />
                   <span className="hidden lg:inline">Submit</span>
@@ -315,15 +330,6 @@ export function Navbar() {
             </Link>
           )}
 
-          {/* Mobile Menu Button - visible on mobile only */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9 md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
         </div>
       </div>
 

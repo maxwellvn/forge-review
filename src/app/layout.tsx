@@ -4,8 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import "@uploadthing/react/styles.css";
 import "./globals.css";
-import { Navbar } from "@/components/shared/Navbar";
-import { Footer } from "@/components/shared/Footer";
+import { LayoutWrapper } from "@/components/shared/LayoutWrapper";
 import { Providers } from "@/components/providers";
 import { PageLoader } from "@/components/shared/PageLoader";
 
@@ -54,11 +53,7 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <PageLoader />
           </Suspense>
-          <Navbar />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          <LayoutWrapper>{children}</LayoutWrapper>
           <Toaster position="top-center" />
         </Providers>
       </body>

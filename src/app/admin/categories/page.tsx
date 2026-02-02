@@ -329,8 +329,8 @@ export default function AdminCategoriesPage() {
               </Button>
             </div>
           ) : (
-            <div className="border rounded-lg">
-              <Table>
+            <div className="border rounded-lg overflow-x-auto">
+              <Table className="admin-table">
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[50px]"></TableHead>

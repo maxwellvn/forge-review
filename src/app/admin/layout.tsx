@@ -155,7 +155,7 @@ export default function AdminLayout({
       <div className="min-h-screen bg-background">
         <div className="flex">
           {/* Desktop Sidebar Skeleton */}
-          <aside className="hidden lg:block fixed left-0 top-0 z-40 h-screen w-64 border-r bg-card">
+          <aside className="desktop-sidebar hidden lg:block fixed left-0 top-0 z-40 h-screen w-64 border-r bg-card">
             <div className="flex h-full flex-col">
               <div className="flex h-16 items-center border-b px-6">
                 <Skeleton className="h-6 w-32" />
@@ -168,11 +168,11 @@ export default function AdminLayout({
             </div>
           </aside>
           {/* Mobile Header Skeleton */}
-          <div className="lg:hidden fixed top-0 left-0 right-0 z-40 h-14 border-b bg-card px-4 flex items-center justify-between">
+          <div className="mobile-header lg:hidden fixed top-0 left-0 right-0 z-40 h-14 border-b bg-card px-4 flex items-center justify-between">
             <Skeleton className="h-6 w-32" />
             <Skeleton className="h-10 w-10" />
           </div>
-          <main className="flex-1 min-h-screen lg:ml-64 pt-14 lg:pt-0">
+          <main className="admin-content flex-1 min-h-screen">
             <div className="p-4 sm:p-6 lg:p-8">
               <Skeleton className="h-8 w-48 mb-8" />
               <Skeleton className="h-64 w-full" />
@@ -193,14 +193,14 @@ export default function AdminLayout({
     <div className="min-h-screen bg-background">
       <div className="flex">
         {/* Desktop Sidebar */}
-        <aside className="hidden lg:block fixed left-0 top-0 z-40 h-screen w-64 border-r bg-card">
+        <aside className="desktop-sidebar hidden lg:block fixed left-0 top-0 z-40 h-screen w-64 border-r bg-card">
           <div className="flex h-full flex-col">
             <SidebarContent pathname={pathname} isAdmin={isAdmin} />
           </div>
         </aside>
 
         {/* Mobile Header */}
-        <div className="lg:hidden fixed top-0 left-0 right-0 z-40 h-14 border-b bg-card px-4 flex items-center justify-between">
+        <div className="mobile-header lg:hidden fixed top-0 left-0 right-0 z-40 h-14 border-b bg-card px-4 flex items-center justify-between">
           <Link href="/admin" className="flex items-center gap-2">
             <Shield className="h-5 w-5 text-primary" />
             <span className="font-bold text-sm">Admin Panel</span>
@@ -224,7 +224,7 @@ export default function AdminLayout({
         </div>
 
         {/* Main content */}
-        <main className="flex-1 min-h-screen lg:ml-64 pt-14 lg:pt-0">
+        <main className="admin-content flex-1 min-h-screen">
           <div className="p-4 sm:p-6 lg:p-8">{children}</div>
         </main>
       </div>
