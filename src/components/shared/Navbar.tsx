@@ -344,12 +344,12 @@ export function Navbar() {
             <form onSubmit={handleSearchSubmit} className="px-4 py-3">
               <div className="flex items-center gap-3">
                 <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                   <Input
                     placeholder="Search apps..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 w-full h-10 bg-background border-0 shadow-sm rounded-xl focus-visible:ring-1"
+                    className="pl-11 w-full h-10 bg-background border-0 shadow-sm rounded-xl focus-visible:ring-1"
                     autoFocus
                   />
                 </div>
