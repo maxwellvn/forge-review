@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Github, Twitter, Linkedin } from "lucide-react";
-import { motion } from "framer-motion";
 
 const footerLinks = {
   product: [
@@ -24,12 +22,6 @@ const footerLinks = {
   ],
 };
 
-const socialLinks = [
-  { href: "https://github.com", icon: Github, label: "GitHub" },
-  { href: "https://twitter.com", icon: Twitter, label: "Twitter" },
-  { href: "https://linkedin.com", icon: Linkedin, label: "LinkedIn" },
-];
-
 export function Footer() {
   return (
     <footer className="border-t border-border bg-background">
@@ -46,25 +38,9 @@ export function Footer() {
               />
               <span className="text-xl font-bold">APP Review</span>
             </Link>
-            <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               Discover, review, and share the best digital products with our trusted community.
             </p>
-            <div className="flex gap-3 sm:gap-4">
-              {socialLinks.map((social) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
-                >
-                  <social.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                  <span className="sr-only">{social.label}</span>
-                </motion.a>
-              ))}
-            </div>
           </div>
 
           <div>
