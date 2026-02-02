@@ -94,6 +94,7 @@ interface Review {
   unhelpful: number;
   createdAt: string;
   authorId: {
+    _id: string;
     name: string;
     image?: string;
     role: string;
