@@ -92,6 +92,7 @@ interface Review {
   likes: number;
   helpful: number;
   unhelpful: number;
+  userVote?: "helpful" | "unhelpful" | null;
   createdAt: string;
   authorId: {
     _id: string;
@@ -101,6 +102,16 @@ interface Review {
     isVerified: boolean;
   };
 }
+
+const REPORT_REASONS = [
+  { value: "spam", label: "Spam or scam" },
+  { value: "inappropriate", label: "Inappropriate content" },
+  { value: "broken", label: "Broken or not working" },
+  { value: "misleading", label: "Misleading information" },
+  { value: "malware", label: "Malware or security risk" },
+  { value: "copyright", label: "Copyright violation" },
+  { value: "other", label: "Something else" },
+];
 
 export default function AppDetailPage() {
   const params = useParams();
@@ -113,7 +124,7 @@ export default function AppDetailPage() {
 
   // Review dialog state
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
-  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewRating, setReviewRating] = useState(0);
   const [reviewContent, setReviewContent] = useState("");
   const [submittingReview, setSubmittingReview] = useState(false);
 
@@ -132,6 +143,12 @@ export default function AppDetailPage() {
   const [tagInput, setTagInput] = useState("");
   const [submittingEdit, setSubmittingEdit] = useState(false);
   const [deleting, setDeleting] = useState(false);
+
+  // Report dialog state
+  const [reportDialogOpen, setReportDialogOpen] = useState(false);
+  const [reportReason, setReportReason] = useState("");
+  const [reportDetails, setReportDetails] = useState("");
+  const [submittingReport, setSubmittingReport] = useState(false);
 
   useEffect(() => {
     fetchApp();
@@ -168,9 +185,92 @@ export default function AppDetailPage() {
     setReviewDialogOpen(true);
   };
 
+  const handleShare = async () => {
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    const shareData = {
+      title: app?.title || "App Review",
+      text: app?.shortDescription || "Check out this app",
+      url,
+    };
+
+    // Use the native share sheet when available (mobile / supported browsers)
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (error) {
+        // User cancelled the share sheet — do nothing
+        if ((error as Error)?.name === "AbortError") return;
+      }
+    }
+
+    // Fallback: copy the link to the clipboard
+    try {
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copied to clipboard");
+    } catch {
+      toast.error("Couldn't copy the link");
+    }
+  };
+
+  const handleReportClick = () => {
+    if (!session) {
+      toast.error("Please sign in to report this app");
+      return;
+    }
+    setReportReason("");
+    setReportDetails("");
+    setReportDialogOpen(true);
+  };
+
+  const handleSubmitReport = async () => {
+    if (!session) {
+      toast.error("Please sign in to report this app");
+      return;
+    }
+
+    if (!reportReason) {
+      toast.error("Please select a reason");
+      return;
+    }
+
+    setSubmittingReport(true);
+    try {
+      const res = await fetch("/api/reports", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          appId: params.id,
+          reason: reportReason,
+          details: reportDetails.trim(),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success(data.message || "Report submitted. Our team will review it.");
+        setReportDialogOpen(false);
+        setReportReason("");
+        setReportDetails("");
+      } else {
+        toast.error(data.error || "Failed to submit report");
+      }
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setSubmittingReport(false);
+    }
+  };
+
   const handleSubmitReview = async () => {
     if (!session) {
       toast.error("Please sign in to write a review");
+      return;
+    }
+
+    if (reviewRating < 1) {
+      toast.error("Please select a rating");
       return;
     }
 
@@ -204,7 +304,7 @@ export default function AppDetailPage() {
         toast.success("Review submitted successfully!");
         setReviewDialogOpen(false);
         setReviewContent("");
-        setReviewRating(5);
+        setReviewRating(0);
         fetchReviews();
         fetchApp(); // Refresh app to update rating
       } else {
@@ -313,7 +413,7 @@ export default function AppDetailPage() {
       <div className="container py-20 text-center">
         <h1 className="text-2xl font-bold mb-2">App Not Found</h1>
         <p className="text-muted-foreground">
-          The app you're looking for doesn't exist or has been removed.
+          The app you&apos;re looking for doesn&apos;t exist or has been removed.
         </p>
       </div>
     );
@@ -385,10 +485,22 @@ export default function AppDetailPage() {
                       </Button>
                     </>
                   )}
-                  <Button variant="outline" size="icon" className="h-9 w-9 sm:h-10 sm:w-10">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-9 w-9 sm:h-10 sm:w-10"
+                    onClick={handleShare}
+                    title="Share this app"
+                  >
                     <Share2 className="h-4 w-4" />
                   </Button>
-                  <Button variant="outline" size="icon" className="h-9 w-9 sm:h-10 sm:w-10">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-9 w-9 sm:h-10 sm:w-10"
+                    onClick={handleReportClick}
+                    title="Report this app"
+                  >
                     <Flag className="h-4 w-4" />
                   </Button>
                 </div>
@@ -517,7 +629,12 @@ export default function AppDetailPage() {
               <div className="lg:col-span-2 space-y-4 sm:space-y-6 order-2 lg:order-1">
                 {reviews.length > 0 ? (
                   reviews.map((review, index) => (
-                    <ReviewCard key={review._id} review={review} index={index} />
+                    <ReviewCard
+                      key={review._id}
+                      review={review}
+                      index={index}
+                      initialUserVote={review.userVote ?? null}
+                    />
                   ))
                 ) : (
                   <div className="text-center py-8 sm:py-12">
@@ -596,6 +713,7 @@ export default function AppDetailPage() {
                 ))}
               </div>
               <p className="text-center text-sm text-muted-foreground">
+                {reviewRating === 0 && "Tap a star to rate"}
                 {reviewRating === 1 && "Poor"}
                 {reviewRating === 2 && "Fair"}
                 {reviewRating === 3 && "Good"}
@@ -621,7 +739,7 @@ export default function AppDetailPage() {
               </p>
             </div>
           </div>
-          <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0 mt-4">
+          <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-3 mt-4">
             <Button
               variant="outline"
               onClick={() => setReviewDialogOpen(false)}
@@ -631,10 +749,73 @@ export default function AppDetailPage() {
             </Button>
             <Button
               onClick={handleSubmitReview}
-              disabled={submittingReview || reviewContent.trim().length < 10}
+              disabled={submittingReview || reviewRating < 1 || reviewContent.trim().length < 10}
               className="w-full sm:w-auto"
             >
               {submittingReview ? "Submitting..." : "Submit Review"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Report App Dialog */}
+      <Dialog open={reportDialogOpen} onOpenChange={setReportDialogOpen}>
+        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto w-[calc(100%-2rem)] sm:w-full p-4 sm:p-6">
+          <DialogHeader>
+            <DialogTitle className="text-lg sm:text-xl">Report App</DialogTitle>
+            <DialogDescription className="text-xs sm:text-sm">
+              Let us know what&apos;s wrong with {app.title}. Reports are private — only
+              our admins can see them, and this won&apos;t affect the app&apos;s visibility.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="space-y-2">
+              <Label className="text-sm sm:text-base">Reason</Label>
+              <Select value={reportReason} onValueChange={setReportReason}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a reason" />
+                </SelectTrigger>
+                <SelectContent>
+                  {REPORT_REASONS.map((r) => (
+                    <SelectItem key={r.value} value={r.value}>
+                      {r.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="report-details" className="text-sm sm:text-base">
+                Details <span className="text-muted-foreground font-normal">(optional)</span>
+              </Label>
+              <Textarea
+                id="report-details"
+                placeholder="Add any details that will help our team understand the issue..."
+                value={reportDetails}
+                onChange={(e) => setReportDetails(e.target.value)}
+                rows={4}
+                maxLength={1000}
+                className="resize-none text-sm sm:text-base"
+              />
+              <p className="text-xs text-right text-muted-foreground">
+                {reportDetails.length}/1000
+              </p>
+            </div>
+          </div>
+          <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-3 mt-4">
+            <Button
+              variant="outline"
+              onClick={() => setReportDialogOpen(false)}
+              className="w-full sm:w-auto"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSubmitReport}
+              disabled={submittingReport || !reportReason}
+              className="w-full sm:w-auto"
+            >
+              {submittingReport ? "Submitting..." : "Submit Report"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -785,7 +966,7 @@ export default function AppDetailPage() {
               </div>
             </div>
           </div>
-          <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0 mt-4">
+          <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-3 mt-4">
             <Button variant="outline" onClick={() => setEditDialogOpen(false)} className="w-full sm:w-auto">
               Cancel
             </Button>
@@ -802,7 +983,7 @@ export default function AppDetailPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete App</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{app.title}"? This action cannot be undone
+              Are you sure you want to delete &quot;{app.title}&quot;? This action cannot be undone
               and will remove all associated reviews.
             </AlertDialogDescription>
           </AlertDialogHeader>

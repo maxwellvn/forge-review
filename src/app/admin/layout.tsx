@@ -12,6 +12,7 @@ import {
   AppWindow,
   MessageSquare,
   MessagesSquare,
+  Flag,
   Tags,
   Settings,
   Shield,
@@ -44,6 +45,11 @@ const sidebarLinks = [
     href: "/admin/reviews",
     label: "Reviews",
     icon: MessageSquare,
+  },
+  {
+    href: "/admin/reports",
+    label: "Reports",
+    icon: Flag,
   },
   {
     href: "/admin/discussions",

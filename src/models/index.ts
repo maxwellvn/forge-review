@@ -5,3 +5,10 @@ export { default as Discussion, type IDiscussion, type DiscussionCategory, type 
 export { default as Comment, type IComment } from './Comment';
 export { default as Vote, type IVote, type VoteTargetType, type VoteValue } from './Vote';
 export { default as Category, type ICategory } from './Category';
+export {
+  default as Report,
+  type IReport,
+  type ReportReason,
+  type ReportStatus,
+  REPORT_REASONS,
+} from './Report';

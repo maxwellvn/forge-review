@@ -103,6 +103,9 @@ export async function GET(request: NextRequest) {
 
     await connectDB();
 
+    const session = await getServerSession(authOptions);
+    const currentUserId = session?.user?.id;
+
     const skip = (page - 1) * limit;
 
     const reviews = await Review.find({ appId })
@@ -112,10 +115,26 @@ export async function GET(request: NextRequest) {
       .limit(limit)
       .lean();
 
+    // Attach the current user's existing vote per review, then strip the raw
+    // votes array so we don't leak the full list of voters to the client.
+    const reviewsWithVote = reviews.map((review) => {
+      let userVote: 'helpful' | 'unhelpful' | null = null;
+      if (currentUserId && Array.isArray(review.votes)) {
+        const vote = review.votes.find(
+          (v: { userId?: { toString(): string }; type: 'helpful' | 'unhelpful' }) =>
+            v.userId?.toString() === currentUserId
+        );
+        userVote = vote?.type || null;
+      }
+      const rest = { ...review };
+      delete (rest as { votes?: unknown }).votes;
+      return { ...rest, userVote };
+    });
+
     const total = await Review.countDocuments({ appId });
 
     return NextResponse.json({
-      reviews,
+      reviews: reviewsWithVote,
       pagination: {
         page,
         limit,

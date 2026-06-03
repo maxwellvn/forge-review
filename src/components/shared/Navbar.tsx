@@ -119,7 +119,7 @@ export function Navbar() {
     >
       <div className="container flex h-14 md:h-16 items-center gap-4">
         {/* Logo + Desktop Nav */}
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4 lg:gap-8 shrink-0">
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -138,7 +138,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="desktop-nav hidden md:flex items-center gap-6">
+          <nav className="desktop-nav hidden md:flex items-center gap-4 lg:gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -177,9 +177,9 @@ export function Navbar() {
           </Button>
 
           {/* Desktop Search */}
-          <div ref={searchRef} className="desktop-block relative hidden md:block">
+          <div ref={searchRef} className="desktop-block relative hidden md:block shrink-0">
             <form onSubmit={handleSearchSubmit}>
-              <div className="flex items-center h-9 w-[240px] rounded-md border border-input bg-background px-3 gap-2">
+              <div className="flex items-center h-9 w-[160px] lg:w-[240px] rounded-md border border-input bg-background px-3 gap-2">
                 <Search className="h-4 w-4 text-muted-foreground shrink-0" />
                 <input
                   type="text"

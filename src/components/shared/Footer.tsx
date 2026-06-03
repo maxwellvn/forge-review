@@ -11,9 +11,7 @@ const footerLinks = {
     { href: "/apps/upload", label: "Submit App" },
   ],
   company: [
-    { href: "/about", label: "About" },
-    { href: "/blog", label: "Blog" },
-    { href: "/careers", label: "Careers" },
+    { href: "https://roropportunitieshub.org", label: "Careers", external: true },
   ],
   legal: [
     { href: "/privacy", label: "Privacy" },
@@ -64,12 +62,23 @@ export function Footer() {
             <ul className="space-y-2 sm:space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

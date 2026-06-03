@@ -4,10 +4,8 @@ import { Suspense, useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Search, X, Filter, SlidersHorizontal } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AppCard } from "@/components/apps/AppCard";
 import {
@@ -126,77 +124,92 @@ function SearchPageContent() {
           transition={{ delay: 0.1 }}
           className="mb-6 sm:mb-8"
         >
-          <Card>
-            <CardContent className="p-3 sm:p-4">
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search apps, tools, products..."
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    className="pl-10 text-sm sm:text-base"
-                  />
-                  {query && (
-                    <button
-                      onClick={() => setQuery("")}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 min-h-[44px] min-w-[44px] flex items-center justify-center"
-                    >
-                      <X className="h-4 w-4 text-muted-foreground hover:text-foreground" />
-                    </button>
-                  )}
-                </div>
-                <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger className="w-full sm:w-[180px] text-sm">
-                    <Filter className="h-4 w-4 mr-2" />
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat._id} value={cat.name}>
-                        {cat.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Button onClick={handleSearch} className="gap-2 w-full sm:w-auto">
-                  <Search className="h-4 w-4" />
-                  <span className="sm:inline">Search</span>
-                </Button>
+          {/* Search bar */}
+          <div className="rounded-xl border border-border bg-card p-3 sm:p-4 shadow-sm">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              {/* Search input — mirrors the standard Input styling */}
+              <div className="flex flex-1 items-center gap-2 h-10 rounded-md border border-input bg-transparent px-3 shadow-xs transition-[color,box-shadow] focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]">
+                <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search apps, tools, products..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="flex-1 min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                />
+                {query && (
+                  <button
+                    type="button"
+                    aria-label="Clear search"
+                    onClick={() => setQuery("")}
+                    className="shrink-0 flex items-center justify-center h-6 w-6 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
               </div>
 
-              {/* Active Filters */}
-              {(query || category !== "all") && (
-                <div className="flex flex-wrap items-center gap-2 mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-border">
-                  <span className="text-xs sm:text-sm text-muted-foreground">Active filters:</span>
-                  {query && (
-                    <Badge variant="secondary" className="gap-1 text-xs">
-                      Query: <span className="truncate max-w-[100px] sm:max-w-[150px]">{query}</span>
-                      <button onClick={() => setQuery("")} className="min-h-[20px] min-w-[20px] flex items-center justify-center">
-                        <X className="h-3 w-3" />
-                      </button>
-                    </Badge>
-                  )}
-                  {category !== "all" && (
-                    <Badge variant="secondary" className="gap-1 text-xs">
-                      Category: {category}
-                      <button onClick={() => setCategory("all")} className="min-h-[20px] min-w-[20px] flex items-center justify-center">
-                        <X className="h-3 w-3" />
-                      </button>
-                    </Badge>
-                  )}
+              {/* Category */}
+              <Select value={category} onValueChange={setCategory}>
+                <SelectTrigger className="h-10! w-full sm:w-[180px] text-sm">
+                  <Filter className="h-4 w-4 mr-2 text-muted-foreground" />
+                  <SelectValue placeholder="Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat._id} value={cat.name}>
+                      {cat.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              {/* Search button — standard site button, same height as the field */}
+              <Button onClick={handleSearch} className="h-10 px-6 gap-2 w-full sm:w-auto">
+                <Search className="h-4 w-4" />
+                Search
+              </Button>
+            </div>
+          </div>
+
+          {/* Active Filters */}
+          {(query || category !== "all") && (
+            <div className="flex flex-wrap items-center gap-2 mt-3 px-1">
+              <span className="text-xs sm:text-sm text-muted-foreground">Active filters:</span>
+              {query && (
+                <Badge variant="secondary" className="gap-1 text-xs py-1 pl-2.5 pr-1.5">
+                  Query: <span className="truncate max-w-[100px] sm:max-w-[150px]">{query}</span>
                   <button
-                    onClick={clearSearch}
-                    className="text-xs sm:text-sm text-muted-foreground hover:text-foreground ml-auto"
+                    onClick={() => setQuery("")}
+                    aria-label="Remove query filter"
+                    className="flex items-center justify-center h-4 w-4 rounded-full hover:bg-foreground/15 transition-colors"
                   >
-                    Clear all
+                    <X className="h-3 w-3" />
                   </button>
-                </div>
+                </Badge>
               )}
-            </CardContent>
-          </Card>
+              {category !== "all" && (
+                <Badge variant="secondary" className="gap-1 text-xs py-1 pl-2.5 pr-1.5">
+                  Category: {category}
+                  <button
+                    onClick={() => setCategory("all")}
+                    aria-label="Remove category filter"
+                    className="flex items-center justify-center h-4 w-4 rounded-full hover:bg-foreground/15 transition-colors"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </Badge>
+              )}
+              <button
+                onClick={clearSearch}
+                className="text-xs sm:text-sm text-muted-foreground hover:text-foreground ml-auto"
+              >
+                Clear all
+              </button>
+            </div>
+          )}
         </motion.div>
 
         {/* Results */}
@@ -219,7 +232,7 @@ function SearchPageContent() {
                   {query && (
                     <span>
                       {" "}
-                      for "<span className="font-medium truncate">{query}</span>"
+                      for &quot;<span className="font-medium truncate">{query}</span>&quot;
                     </span>
                   )}
                 </p>
@@ -238,7 +251,7 @@ function SearchPageContent() {
                   </div>
                   <h3 className="text-base sm:text-lg font-medium mb-2">No results found</h3>
                   <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto mb-6 px-4 sm:px-0">
-                    We couldn't find any apps matching your search. Try adjusting your
+                    We couldn&apos;t find any apps matching your search. Try adjusting your
                     filters or search terms.
                   </p>
                   <Button variant="outline" onClick={clearSearch}>

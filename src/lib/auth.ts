@@ -66,13 +66,16 @@ export const authOptions: NextAuthOptions = {
         }
       }
 
-      // Refresh user data on session update
+      // Refresh user data on session update (e.g. after editing the profile)
       if (trigger === 'update' && token.email) {
         await connectDB();
         const dbUser = await User.findOne({ email: token.email });
         if (dbUser) {
           token.role = dbUser.role;
           token.isVerified = dbUser.isVerified;
+          // Keep name/avatar in sync so the navbar reflects profile edits
+          token.name = dbUser.name;
+          token.picture = dbUser.image;
         }
       }
 
