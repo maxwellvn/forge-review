@@ -530,13 +530,23 @@ export default function AppDetailPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 mt-4 sm:mt-6">
-                <Button size="lg" className="gap-2 w-full sm:w-auto">
-                  {app.submissionType === "package" ? (
-                    <Download className="h-4 w-4" />
-                  ) : (
-                    <ExternalLink className="h-4 w-4" />
-                  )}
-                  {app.submissionType === "package" ? "Download" : "Visit"}
+                <Button
+                  size="lg"
+                  className="gap-2 w-full sm:w-auto"
+                  asChild
+                >
+                  <a
+                    href={app.downloadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {app.submissionType === "package" ? (
+                      <Download className="h-4 w-4" />
+                    ) : (
+                      <ExternalLink className="h-4 w-4" />
+                    )}
+                    {app.submissionType === "package" ? "Download" : "Visit"}
+                  </a>
                 </Button>
                 <Button
                   size="lg"
